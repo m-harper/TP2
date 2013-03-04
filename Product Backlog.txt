@@ -37,6 +37,41 @@ UI	( * optional)
 .25		Which player won
 .25		Pieces remaining		*
 
+
 AI
 
+	Sooner:
+2		Select random move
+3		Construct minimax tree
+3		Determine possible next moves
+1		Calculate utility for each move
+2			Construct utility function
+1		Search 1 move ahead
+	Later:
+2		Alpha-Beta pruning
+2		Search(practical): search N > 1 moves ahead
+4		Add Iterative Deepening
+2		Detect whether to go for a tie
+	
+	Optional:
+1		Search(ideal): search 50 moves ahead
+6		Multithreaded graph search
+4		Precomputed hash table of moves
+
+
 Game Logic
+
+
+	Sooner:
+2		Enforce valid movements
+3		Piece elimination
+		Check end conditions
+1			Win
+1			Draw- 50 moves
+		
+	Later:
+2		Enforce time limit for player
+2		Enforce time limit for AI
+
+	Optional:
+
