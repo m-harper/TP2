@@ -1,5 +1,42 @@
-UI
-
+UI	( * optional)
+	Title screen
+		Intro screen
+	Menu bar
+		New game
+			Re add all pieces
+			Set piece locations
+			Reset timers
+			Reset turns
+		Save state			*
+		Help menu			*
+		Exit
+	Basic board
+		Background
+		Lines
+		Player pieces
+			Black
+			Red
+		Movement animation		*
+		Destruction animation		*
+	Movement controls
+		Mouse input
+		Keyboard input
+			Piece selection
+			Move location
+		Selected piece			*
+		Valid moves			*
+			Highlight lines
+		Highlight move-to tile		*
+		End turn
+	Game info
+		Pieces remaining		*
+		Time remaining			*
+		Turn time		
+		Turns remaining
+	Game over screen
+		Which player won
+		Pieces remaining		*
+		
 AI
 
 Game Logic
