@@ -75,3 +75,10 @@ Game Logic
 
 	Optional:
 
+General
+
+0.5	Make initial burndown chart 
+0.5	Product backlog
+1.5	Backlogs for each sprint
+1.5	Three times of retrospective for each sprint
+
