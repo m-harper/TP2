@@ -1,12 +1,21 @@
-New window
-Menu bar
+Sprint 1 Backlog
+
+UI:
+	New window
+	Menu bar
 	New game
-	Exit
-Display board
-Display pieces
-Display lines
-Mouse input
-	Select pieces
-	Select locations
-Redraw board
-Check valid move
+		Exit
+	Display board
+	Display pieces
+	Display lines
+	Mouse input
+		Select pieces
+		Select locations
+	Redraw board
+	Check valid move
+
+Agile Works:
+	Initial Burndown Chart
+	Product Backlogs
+	Backlog for Sprint 1
+
