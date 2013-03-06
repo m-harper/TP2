@@ -1,11 +1,11 @@
 Sprint 1 Backlog
 
 UI:
-	New window
-	Menu bar
+	*New window
+	*Menu bar
 	New game
-		Exit
-	Display board
+		*Exit
+	*Display board
 	Display pieces
 	Display lines
 	Mouse input
