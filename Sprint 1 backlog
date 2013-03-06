@@ -2,12 +2,12 @@ Sprint 1 Backlog
 
 UI:
 	*New window
-	*Menu bar
-	New game
+	Menu bar
+		New game
 		*Exit
 	*Display board
 	Display pieces
-	Display lines
+	*Display lines
 	Mouse input
 		Select pieces
 		Select locations
@@ -16,7 +16,7 @@ UI:
 
 Agile Works:
 
-	Initial Burndown Chart
-	Product Backlogs
-	Backlog for Sprint 1
+	*Initial Burndown Chart
+	*Product Backlogs
+	*Backlog for Sprint 1
 
