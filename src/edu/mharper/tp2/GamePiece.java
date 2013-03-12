@@ -4,20 +4,14 @@ public class GamePiece
 {
 	public enum Player
 	{
-		FirstPlayer,
-		SecondPlayer
+		Black,
+		White
 	}
 	
 	private Player player;
 	private int row;
 	private int col;
 	
-	//default constructor (should not be needed)
-	public GamePiece()
-	{
-	}
-	
-	//Typical constructor
 	public GamePiece(Player whichPlayer, int startRow, int startCol)
 	{
 		player = whichPlayer;
@@ -31,6 +25,21 @@ public class GamePiece
 	{
 		row = newRow;
 		col = newCol;
+	}
+
+	public Player getPlayer() 
+	{
+		return player;
+	}
+
+	public int getRow() 
+	{
+		return row;
+	}
+	
+	public int getCol()
+	{
+		return col;
 	}
 	
 }
