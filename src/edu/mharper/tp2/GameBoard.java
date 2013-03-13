@@ -12,8 +12,8 @@ public class GameBoard
 	public GameBoard()
 	{
 		//pieces = new ArrayList<GamePieces>();
-		numRows = 5;
-		numCols = 9;
+		numRows = Main.verticalSpaces;
+		numCols = Main.horizontalSpaces;
 		board = new GamePiece[numRows][numCols];
 		
 		//Add all pieces
@@ -32,17 +32,17 @@ public class GameBoard
 			for(int c = 0; c < numCols; c++)
 			{
 				if(r < middleRow)
-					board[r][c] = new GamePiece(GamePiece.Color.Black, r, c);
+					board[r][c] = new GamePiece(0, r, c);
 				else if(r > middleRow)
-					board[r][c] = new GamePiece(GamePiece.Color.Red, r, c);
+					board[r][c] = new GamePiece(1, r, c);
 				else
 				{
 					if(c == middleCol)
 						continue;
 					else if(c % 2 == 0)
-						board[r][c] = new GamePiece(GamePiece.Color.Black, r, c);
+						board[r][c] = new GamePiece(0, r, c);
 					else
-						board[r][c] = new GamePiece(GamePiece.Color.Red, r, c);
+						board[r][c] = new GamePiece(1, r, c);
 				}
 			}
 		}
@@ -119,4 +119,7 @@ public class GameBoard
 		return numCols;
 	}
 	
+	public GamePiece[][] getPieces() {
+		return board;
+	}
 }

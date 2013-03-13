@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -29,7 +30,11 @@ public class View extends Canvas implements ActionListener {
 	JMenuItem newGameMenuItem;
 	JMenuItem exitMenuItem;
 	
+	private ArrayList<GamePiece> pieces;
+	
 	public View() {
+		pieces = new ArrayList<GamePiece>();
+		
 		frame = new JFrame(Main.gameTitle);
 		menuBar = new JMenuBar();
 		panel = new JPanel(new BorderLayout());
@@ -65,7 +70,8 @@ public class View extends Canvas implements ActionListener {
 		drawLines(g);
 		
 		//TODO: change to pass in appropriate board state
-		drawPieces(g, new GameBoard());
+		drawPieces(g);
+		//drawPieces(g, new GameBoard());
 	}
 	
 	private void drawBackground(Graphics g) {
@@ -137,8 +143,33 @@ public class View extends Canvas implements ActionListener {
 		g2.drawLine(getParent().getWidth() - spacing, 2 * Main.tileSize + spacing, getParent().getWidth() - 2 * Main.tileSize - spacing, getParent().getHeight() - spacing);
 	}
 	
+	public void updatePieces(GamePiece[][] gamePieces) {
+		pieces.clear();
+		
+		for (int i = 0; i < Main.verticalSpaces; i++) {
+			for (int j = 0; j < Main.horizontalSpaces; j++) {
+				pieces.add(gamePieces[i][j]);
+			}
+		}
+		this.repaint();
+	}
 	//Draw game pieces over board
-	public void drawPieces(Graphics g, GameBoard board)
+	
+	public void drawPieces(Graphics g) {
+		for (GamePiece piece : pieces) {
+			System.out.println("Painting piece " + piece);
+			int x = piece.getColumn();
+			int y = piece.getRow();
+			Color color = piece.getColor();
+			
+			int xCoord = Main.tileSize * x + Main.pieceSize / 2;
+			int yCoord = Main.tileSize * y + Main.pieceSize / 2;
+			g.setColor(color);
+			
+			g.fillOval(xCoord, yCoord, Main.pieceSize, Main.pieceSize);
+		}
+	}
+	/*public void drawPieces(Graphics g, GameBoard board)
 	{
 		BufferedImage blackPieceImg = null;
 		BufferedImage redPieceImg = null;
@@ -173,7 +204,7 @@ public class View extends Canvas implements ActionListener {
 		
 			}
 		}
-	}
+	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
