@@ -6,13 +6,13 @@ UI:
 		New game
 		*Exit
 	*Display board
-	Display pieces
+	*Display pieces
 	*Display lines
 	Mouse input
 		Select pieces
 		Select locations
-	Redraw board
-	Check valid move
+	*Redraw board
+	*Check valid move
 
 Agile Works:
 
