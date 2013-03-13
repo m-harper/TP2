@@ -148,7 +148,14 @@ public class View extends Canvas implements ActionListener {
 		
 		for (int i = 0; i < Main.verticalSpaces; i++) {
 			for (int j = 0; j < Main.horizontalSpaces; j++) {
-				pieces.add(gamePieces[i][j]);
+				//System.out.println("Updating with " + gamePieces[i][j]);
+				GamePiece piece = gamePieces[i][j];
+				
+				if (piece != null) {
+					System.out.println("Updating " + piece.getColor() + " piece");
+					pieces.add(piece);
+				}
+					
 			}
 		}
 		this.repaint();
@@ -157,7 +164,6 @@ public class View extends Canvas implements ActionListener {
 	
 	public void drawPieces(Graphics g) {
 		for (GamePiece piece : pieces) {
-			System.out.println("Painting piece " + piece);
 			int x = piece.getColumn();
 			int y = piece.getRow();
 			Color color = piece.getColor();
