@@ -9,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +23,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-public class View extends Canvas implements ActionListener {
+public class View extends Canvas implements ActionListener, MouseListener {
 	
 	JFrame frame;
 	JPanel panel;
@@ -29,6 +31,8 @@ public class View extends Canvas implements ActionListener {
 	JMenu fileMenu;
 	JMenuItem newGameMenuItem;
 	JMenuItem exitMenuItem;
+	int pieceSelection[];
+	int tileSelection[];
 	
 	private ArrayList<GamePiece> pieces;
 	
@@ -59,6 +63,8 @@ public class View extends Canvas implements ActionListener {
 		frame.setJMenuBar(menuBar);
 		frame.add(panel);
 		
+		// Add the mouse listener
+		this.addMouseListener(this);
 		
 		frame.pack();
 		frame.setVisible(true);
@@ -68,10 +74,11 @@ public class View extends Canvas implements ActionListener {
 		drawBackground(g);
 		drawSpaces(g);
 		drawLines(g);
-		
+		drawTileSelection(g);
 		//TODO: change to pass in appropriate board state
 		drawPieces(g);
 		//drawPieces(g, new GameBoard());
+		drawSelection(g);
 	}
 	
 	private void drawBackground(Graphics g) {
@@ -162,7 +169,7 @@ public class View extends Canvas implements ActionListener {
 	}
 	//Draw game pieces over board
 	
-	public void drawPieces(Graphics g) {
+	private void drawPieces(Graphics g) {
 		for (GamePiece piece : pieces) {
 			int x = piece.getColumn();
 			int y = piece.getRow();
@@ -175,6 +182,23 @@ public class View extends Canvas implements ActionListener {
 			g.fillOval(xCoord, yCoord, Main.pieceSize, Main.pieceSize);
 		}
 	}
+	
+	private void drawSelection(Graphics g) {
+		g.setColor(Color.green);
+		if (pieceSelection != null) {
+			g.fillOval(pieceSelection[0], pieceSelection[1], Main.pieceSize, Main.pieceSize);
+		}
+		pieceSelection = null;
+	}
+	
+	private void drawTileSelection(Graphics g) {
+		if (tileSelection != null) {
+			g.setColor(Color.green);
+			g.fillOval(tileSelection[0], tileSelection[1], Main.tileSize, Main.tileSize);
+		}
+		tileSelection = null;
+	}
+	
 	/*public void drawPieces(Graphics g, GameBoard board)
 	{
 		BufferedImage blackPieceImg = null;
@@ -217,13 +241,80 @@ public class View extends Canvas implements ActionListener {
 		if (event.getActionCommand().equals("New game")) {
 			// New game
 			// Tell the game logic to reset the board
-			this.update(getGraphics());
+			//this.update(getGraphics());
+			repaint();
 		}
 		else if (event.getActionCommand().equals("Exit")) {
 			System.exit(0);
 		}
 		
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		//System.out.println("Clicked mouse at " + e.getX() + "," + e.getY());
+		int x = e.getX();
+		int y = e.getY();
+		
+		int xTile = coordToTile(x);
+		int yTile = coordToTile(y);
+		
+		// Highlight the piece if there is one
+		if (isPiecePresent(xTile, yTile)) {
+			System.out.println("Piece present at clicked location");
+			int xCoord = xTile * Main.tileSize + Main.pieceSize / 2;
+			int yCoord = yTile * Main.tileSize + Main.pieceSize / 2;
+			pieceSelection = new int[2];
+			pieceSelection[0] = xCoord;
+			pieceSelection[1] = yCoord;
+			repaint();
+		}
+		else {
+			// Highlight the tile
+			int xCoord = xTile * Main.tileSize;
+			int yCoord = yTile * Main.tileSize;
+			tileSelection = new int[2];
+			tileSelection[0] = xCoord;
+			tileSelection[1] = yCoord;
+			repaint();
+		}
+
+	}
 	
+	boolean isPiecePresent(int x, int y) {
+		for (GamePiece piece : pieces) {
+			if (piece.getColumn() == x && piece.getRow() == y)
+				return true;
+		}
+		return false;
+	}
+	
+	int coordToTile(int offset) {
+		return offset / Main.tileSize;
+	}
 	
 }
