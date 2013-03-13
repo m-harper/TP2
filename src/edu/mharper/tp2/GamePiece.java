@@ -19,8 +19,10 @@ public class GamePiece
 		switch (whichColor) {
 		case 0:
 			color = Color.black;
+			break;
 		default:
 			color = Color.red;
+			break;
 		}
 		row = startRow;
 		col = startCol;
