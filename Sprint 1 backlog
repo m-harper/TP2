@@ -8,9 +8,9 @@ UI:
 	*Display board
 	*Display pieces
 	*Display lines
-	Mouse input
-		Select pieces
-		Select locations
+	*Mouse input
+		*Select pieces
+		*Select locations
 	*Redraw board
 	*Check valid move
 
