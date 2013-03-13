@@ -7,18 +7,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.MenuBar;
-import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
-import javax.swing.JFrame;
 
 public class View extends Canvas implements ActionListener {
 	
@@ -63,6 +63,9 @@ public class View extends Canvas implements ActionListener {
 		drawBackground(g);
 		drawSpaces(g);
 		drawLines(g);
+		
+		//TODO: change to pass in appropriate board state
+		drawPieces(g, new GameBoard());
 	}
 	
 	private void drawBackground(Graphics g) {
@@ -132,6 +135,44 @@ public class View extends Canvas implements ActionListener {
 		// Draw shorter left diagonal
 		g2.drawLine(2 * Main.tileSize + spacing, spacing, spacing, 2 * Main.tileSize + spacing);
 		g2.drawLine(getParent().getWidth() - spacing, 2 * Main.tileSize + spacing, getParent().getWidth() - 2 * Main.tileSize - spacing, getParent().getHeight() - spacing);
+	}
+	
+	//Draw game pieces over board
+	public void drawPieces(Graphics g, GameBoard board)
+	{
+		BufferedImage blackPieceImg = null;
+		BufferedImage redPieceImg = null;
+		
+		try
+		{
+			//TODO: Create res directory for image files
+			blackPieceImg = ImageIO.read(new File("bin/edu/mharper/tp2/blackpiece.png"));
+			redPieceImg = ImageIO.read(new File("bin/edu/mharper/tp2/redpiece.png"));
+		} 
+		catch(IOException e)
+		{
+			return;
+		}
+		
+		for(int r = 0; r < board.getNumRows(); r++)		
+		{
+			for(int c = 0; c < board.getNumCols(); c++)
+			{
+				//Draw individual piece
+				GamePiece piece = board.getPiece(r,c);
+				if(piece == null)
+					continue;
+				
+				int drawX = c * Main.tileSize;
+				int drawY = r * Main.tileSize;
+				
+				if(piece.getColor() == GamePiece.Color.Black)
+					g.drawImage(blackPieceImg, drawX, drawY, null);
+				else
+					g.drawImage(redPieceImg, drawX, drawY, null);
+		
+			}
+		}
 	}
 
 	@Override

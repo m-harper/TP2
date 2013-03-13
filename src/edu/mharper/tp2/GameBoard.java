@@ -32,17 +32,17 @@ public class GameBoard
 			for(int c = 0; c < numCols; c++)
 			{
 				if(r < middleRow)
-					board[r][c] = new GamePiece(GamePiece.Player.Black, r, c);
+					board[r][c] = new GamePiece(GamePiece.Color.Black, r, c);
 				else if(r > middleRow)
-					board[r][c] = new GamePiece(GamePiece.Player.White, r, c);
+					board[r][c] = new GamePiece(GamePiece.Color.Red, r, c);
 				else
 				{
 					if(c == middleCol)
 						continue;
 					else if(c % 2 == 0)
-						board[r][c] = new GamePiece(GamePiece.Player.Black, r, c);
+						board[r][c] = new GamePiece(GamePiece.Color.Black, r, c);
 					else
-						board[r][c] = new GamePiece(GamePiece.Player.White, r, c);
+						board[r][c] = new GamePiece(GamePiece.Color.Red, r, c);
 				}
 			}
 		}
@@ -102,6 +102,21 @@ public class GameBoard
 	public boolean hasPiece(int row, int col)
 	{
 		return (board[row][col] != null);
+	}
+	
+	public GamePiece getPiece(int row, int col)
+	{
+		return board[row][col];
+	}
+	
+	public int getNumRows()
+	{
+		return numRows;
+	}
+	
+	public int getNumCols()
+	{
+		return numCols;
 	}
 	
 }

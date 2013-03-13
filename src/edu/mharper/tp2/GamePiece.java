@@ -2,19 +2,19 @@ package edu.mharper.tp2;
 
 public class GamePiece
 {
-	public enum Player
+	public enum Color
 	{
 		Black,
-		White
+		Red
 	}
 	
-	private Player player;
+	private Color color;
 	private int row;
 	private int col;
 	
-	public GamePiece(Player whichPlayer, int startRow, int startCol)
+	public GamePiece(Color whichColor, int startRow, int startCol)
 	{
-		player = whichPlayer;
+		color = whichColor;
 		row = startRow;
 		col = startCol;
 	}
@@ -27,9 +27,9 @@ public class GamePiece
 		col = newCol;
 	}
 
-	public Player getPlayer() 
+	public Color getColor() 
 	{
-		return player;
+		return color;
 	}
 
 	public int getRow() 
@@ -37,7 +37,7 @@ public class GamePiece
 		return row;
 	}
 	
-	public int getCol()
+	public int getColumn()
 	{
 		return col;
 	}
