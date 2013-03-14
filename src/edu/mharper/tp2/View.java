@@ -34,10 +34,12 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	int pieceSelection[];
 	int tileSelection[];
 	
-	private ArrayList<GamePiece> pieces;
+	//private ArrayList<GamePiece> pieces;
+	private GameManager gameManager;
 	
 	public View() {
-		pieces = new ArrayList<GamePiece>();
+		//pieces = new ArrayList<GamePiece>();
+		gameManager = new GameManager();
 		
 		frame = new JFrame(Main.gameTitle);
 		menuBar = new JMenuBar();
@@ -68,6 +70,9 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		
 		frame.pack();
 		frame.setVisible(true);
+		
+		//Start game by default
+		gameManager.startGame();
 	}
 	
 	public void paint(Graphics g) {
@@ -75,9 +80,7 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		drawSpaces(g);
 		drawLines(g);
 		drawTileSelection(g);
-		//TODO: change to pass in appropriate board state
 		drawPieces(g);
-		//drawPieces(g, new GameBoard());
 		drawSelection(g);
 	}
 	
@@ -150,26 +153,11 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		g2.drawLine(getParent().getWidth() - spacing, 2 * Main.tileSize + spacing, getParent().getWidth() - 2 * Main.tileSize - spacing, getParent().getHeight() - spacing);
 	}
 	
-	public void updatePieces(GamePiece[][] gamePieces) {
-		pieces.clear();
-		
-		for (int i = 0; i < Main.verticalSpaces; i++) {
-			for (int j = 0; j < Main.horizontalSpaces; j++) {
-				//System.out.println("Updating with " + gamePieces[i][j]);
-				GamePiece piece = gamePieces[i][j];
-				
-				if (piece != null) {
-					System.out.println("Updating " + piece.getColor() + " piece");
-					pieces.add(piece);
-				}
-					
-			}
-		}
-		this.repaint();
-	}
+
 	//Draw game pieces over board
 	
-	private void drawPieces(Graphics g) {
+	public void drawPieces(Graphics g) {
+		ArrayList<GamePiece> pieces = gameManager.getPieces();
 		for (GamePiece piece : pieces) {
 			int x = piece.getColumn();
 			int y = piece.getRow();
@@ -199,49 +187,11 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		tileSelection = null;
 	}
 	
-	/*public void drawPieces(Graphics g, GameBoard board)
-	{
-		BufferedImage blackPieceImg = null;
-		BufferedImage redPieceImg = null;
-		
-		try
-		{
-			//TODO: Create res directory for image files
-			blackPieceImg = ImageIO.read(new File("bin/edu/mharper/tp2/blackpiece.png"));
-			redPieceImg = ImageIO.read(new File("bin/edu/mharper/tp2/redpiece.png"));
-		} 
-		catch(IOException e)
-		{
-			return;
-		}
-		
-		for(int r = 0; r < board.getNumRows(); r++)		
-		{
-			for(int c = 0; c < board.getNumCols(); c++)
-			{
-				//Draw individual piece
-				GamePiece piece = board.getPiece(r,c);
-				if(piece == null)
-					continue;
-				
-				int drawX = c * Main.tileSize;
-				int drawY = r * Main.tileSize;
-				
-				if(piece.getColor() == GamePiece.Color.Black)
-					g.drawImage(blackPieceImg, drawX, drawY, null);
-				else
-					g.drawImage(redPieceImg, drawX, drawY, null);
-		
-			}
-		}
-	}*/
-
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New game")) {
-			// New game
-			// Tell the game logic to reset the board
-			//this.update(getGraphics());
+			// Tell the game manager to reset the board
+			gameManager.startGame();
 			repaint();
 		}
 		else if (event.getActionCommand().equals("Exit")) {
@@ -306,6 +256,7 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	}
 	
 	boolean isPiecePresent(int x, int y) {
+		ArrayList<GamePiece> pieces = gameManager.getPieces();
 		for (GamePiece piece : pieces) {
 			if (piece.getColumn() == x && piece.getRow() == y)
 				return true;

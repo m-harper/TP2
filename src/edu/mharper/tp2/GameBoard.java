@@ -15,15 +15,14 @@ public class GameBoard
 		numRows = Main.verticalSpaces;
 		numCols = Main.horizontalSpaces;
 		board = new GamePiece[numRows][numCols];
-		
-		//Add all pieces
-		initPieces();
 	}
 	
 	//Add pieces in standard starting positions
 	//Undefined when there are an even number of rows or cols
-	private void initPieces()
+	public void initPieces()
 	{
+		board = new GamePiece[numRows][numCols];
+		
 		int middleRow = numRows / 2;
 		int middleCol = numCols / 2;
 				

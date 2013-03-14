@@ -17,9 +17,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 
-		GameBoard gb = new GameBoard();
+		//GameBoard gb = new GameBoard();
 		View view = new View();
-		view.updatePieces(gb.getPieces());
+		//view.updatePieces(gb.getPieces());
 	}
 
 }
