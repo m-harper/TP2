@@ -31,14 +31,12 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	JMenu fileMenu;
 	JMenuItem newGameMenuItem;
 	JMenuItem exitMenuItem;
-	int pieceSelection[];
-	int tileSelection[];
+	Point pieceSelection;
+	Point tileSelection;
 	
-	//private ArrayList<GamePiece> pieces;
 	private GameManager gameManager;
 	
 	public View() {
-		//pieces = new ArrayList<GamePiece>();
 		gameManager = new GameManager();
 		
 		frame = new JFrame(Main.gameTitle);
@@ -174,7 +172,7 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	private void drawSelection(Graphics g) {
 		g.setColor(Color.green);
 		if (pieceSelection != null) {
-			g.fillOval(pieceSelection[0], pieceSelection[1], Main.pieceSize, Main.pieceSize);
+			g.fillOval(pieceSelection.getX(), pieceSelection.getY(), Main.pieceSize, Main.pieceSize);
 		}
 		pieceSelection = null;
 	}
@@ -182,7 +180,7 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	private void drawTileSelection(Graphics g) {
 		if (tileSelection != null) {
 			g.setColor(Color.green);
-			g.fillOval(tileSelection[0], tileSelection[1], Main.tileSize, Main.tileSize);
+			g.fillOval(tileSelection.getX(), tileSelection.getY(), Main.tileSize, Main.tileSize);
 		}
 		tileSelection = null;
 	}
@@ -226,7 +224,6 @@ public class View extends Canvas implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//System.out.println("Clicked mouse at " + e.getX() + "," + e.getY());
 		int x = e.getX();
 		int y = e.getY();
 		
@@ -238,18 +235,14 @@ public class View extends Canvas implements ActionListener, MouseListener {
 			System.out.println("Piece present at clicked location");
 			int xCoord = xTile * Main.tileSize + Main.pieceSize / 2;
 			int yCoord = yTile * Main.tileSize + Main.pieceSize / 2;
-			pieceSelection = new int[2];
-			pieceSelection[0] = xCoord;
-			pieceSelection[1] = yCoord;
+			pieceSelection = new Point(xCoord, yCoord);
 			repaint();
 		}
 		else {
 			// Highlight the tile
 			int xCoord = xTile * Main.tileSize;
 			int yCoord = yTile * Main.tileSize;
-			tileSelection = new int[2];
-			tileSelection[0] = xCoord;
-			tileSelection[1] = yCoord;
+			tileSelection = new Point(xCoord, yCoord);
 			repaint();
 		}
 
