@@ -1,5 +1,7 @@
 package edu.mharper.tp2;
 
+import java.util.ArrayList;
+
 public class GameBoard
 {
 	//Stores all pieces, in no particular order
@@ -120,5 +122,17 @@ public class GameBoard
 	
 	public GamePiece[][] getPieces() {
 		return board;
+	}
+	
+	public ArrayList<GamePiece> getPiecesList() {
+		ArrayList<GamePiece> pieces = new ArrayList<GamePiece>();
+		
+		for (int i = 0; i < Main.verticalSpaces; i++) {
+			for (int j = 0; j < Main.horizontalSpaces; j++) {
+				pieces.add(board[i][j]);
+			}
+		}
+		
+		return pieces;
 	}
 }

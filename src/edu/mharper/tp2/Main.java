@@ -3,8 +3,7 @@ package edu.mharper.tp2;
 public class Main {
 	
 	
-	//public static int windowWidth = 800;
-	//public static int windowHeight = 600;
+
 	public static String gameTitle = "Fanorona";
 	public static int horizontalSpaces = 9;
 	public static int verticalSpaces = 5;
@@ -18,6 +17,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		//GameBoard gb = new GameBoard();
+		//GameManager manager = new GameManager();
 		View view = new View();
 		//view.updatePieces(gb.getPieces());
 	}

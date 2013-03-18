@@ -28,9 +28,17 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	JFrame frame;
 	JPanel panel;
 	JMenuBar menuBar;
+	
 	JMenu fileMenu;
+	JMenu helpMenu;
+	
 	JMenuItem newGameMenuItem;
+	JMenuItem saveMenuItem;
+	JMenuItem loadMenuItem;
 	JMenuItem exitMenuItem;
+	
+	JMenuItem helpMenuItem;
+	
 	Point pieceSelection;
 	Point tileSelection;
 	
@@ -42,9 +50,15 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		frame = new JFrame(Main.gameTitle);
 		menuBar = new JMenuBar();
 		panel = new JPanel(new BorderLayout());
+		
 		fileMenu = new JMenu("File");
 		newGameMenuItem = new JMenuItem("New game");
+		saveMenuItem = new JMenuItem("Save game");
+		loadMenuItem = new JMenuItem("Load game");
 		exitMenuItem = new JMenuItem("Exit");
+		
+		helpMenu = new JMenu("Help");
+		helpMenuItem = new JMenuItem("Show rules");
 		
 		// Set up window
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,10 +67,19 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		
 		// Set up menu
 		newGameMenuItem.addActionListener(this);
+		saveMenuItem.addActionListener(this);
+		loadMenuItem.addActionListener(this);
 		exitMenuItem.addActionListener(this);
 		fileMenu.add(newGameMenuItem);
+		fileMenu.add(saveMenuItem);
+		fileMenu.add(loadMenuItem);
 		fileMenu.add(exitMenuItem);
+		
+		helpMenu.add(helpMenuItem);
+		helpMenuItem.addActionListener(this);
+		
 		menuBar.add(fileMenu);
+		menuBar.add(helpMenu);
 		
 		// Add the items to the window
 		panel.add(this);
@@ -195,7 +218,18 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		else if (event.getActionCommand().equals("Exit")) {
 			System.exit(0);
 		}
-		
+		else if (event.getActionCommand().equals("Save game")) {
+			gameManager.saveGame();
+			repaint();
+		}
+		else if (event.getActionCommand().equals("Load game")) {
+			System.out.println("Triggered load game");
+			gameManager.loadGame();
+			repaint();
+		}
+		else if (event.getActionCommand().equals("Show rules")) {
+			// Pop up a window with the rules
+		}
 	}
 
 	@Override
