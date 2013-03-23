@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class View extends Canvas implements ActionListener, MouseListener {
@@ -92,8 +93,35 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		frame.pack();
 		frame.setVisible(true);
 		
+		
 		//Start game by default
 		gameManager.startGame();
+		
+		//showIntroScreen();
+	}
+	
+	private void showIntroScreen() {
+
+	}
+	
+	private void showRules() {
+		String windowTitle = "Fanorona Rules";
+		String rules = "Moving: White moves first.  Pieces are moved by sliding one " 
+				+ "space along one of the the lines.\n\tNote that some points lie on diagonal lines, "
+				+ "while others have only horizontal and vertical directions.\n\n"
+				+ "Capturing:  you can capture a line of your opponent's pieces by approach by " 
+				+ "moving toward them into the adjacent space,\n or by withdrawal by starting in the "
+				+ "adjacent space and moving directly away from your opponent's piece.\n "
+				+ "In some positions, you could capture either way, and you must choose one or the other.\n\n"
+				+ "A Turn:  consists of either a single, non-capturing move, or a sequence of capturing moves.\n "
+				+ "If any capturing moves are possible anywhere on the board, then a capturing move must be made.\n"
+				+ "If multiple captures are possible, you can choose which to do.  Subsequent captures on the same turn are optional.\n"
+				+ "Second and subsequent captures in the same turn are subject to some restrictions:\n"
+				+ "\t       you must keep moving the same piece\n"
+				+ "\t       you cannot return to any space twice\n"
+				+ "\t       you can't move in the same direction twice in a row\n";
+		
+		JOptionPane.showMessageDialog(frame, rules, windowTitle, JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	public void paint(Graphics g) {
@@ -229,6 +257,7 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		}
 		else if (event.getActionCommand().equals("Show rules")) {
 			// Pop up a window with the rules
+			showRules();
 		}
 	}
 
