@@ -1,5 +1,6 @@
 package edu.mharper.tp2;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,13 +33,30 @@ public class GameManager
 	
 	public void saveGame() {
 		// Output the current state of the board
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 		Date date = new Date();
-		String filename = "/" + dateFormat.format(date) + ".sav";
+		String filename = dateFormat.format(date) + ".sav";
 		System.out.println(filename);
 		
-		/*try {
+		try {
 			FileOutputStream ofs = new FileOutputStream(filename);
+			String fileText = "";
+			for (GamePiece piece : board.getPiecesList()) {
+				if (piece != null) {
+					String colorText = "";
+					if (piece.getColor() == Color.black)
+						colorText = "black";						
+					else if (piece.getColor() == Color.red)
+						colorText = "red";
+					
+					fileText += colorText + "\t" + piece.getRow() + "\t" + piece.getColumn() + "\n";
+				}
+				else {
+					fileText += "null\n";
+				}
+			}
+			ofs.write(fileText.getBytes());
+			ofs.close();
 		} catch (FileNotFoundException e) {
 			File file = new File(filename);
 			try {
@@ -48,29 +66,10 @@ public class GameManager
 				e1.printStackTrace();
 			}
 			saveGame();
-		}*/
-		
-		/*File file = new File("./" + filename);
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		try {
-			FileOutputStream fos = new FileOutputStream(file);
-			
-			fos.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-		
+		}
 	}
 		
 	public void loadGame() {
