@@ -33,12 +33,15 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	JMenuBar menuBar;
 	
 	JMenu fileMenu;
+	JMenu controlsMenu;
 	JMenu helpMenu;
 	
 	JMenuItem newGameMenuItem;
 	JMenuItem saveMenuItem;
 	JMenuItem loadMenuItem;
 	JMenuItem exitMenuItem;
+	
+	JMenuItem endTurnItem;
 	
 	JMenuItem helpMenuItem;
 	
@@ -60,6 +63,9 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		loadMenuItem = new JMenuItem("Load game");
 		exitMenuItem = new JMenuItem("Exit");
 		
+		controlsMenu = new JMenu("Controls");
+		endTurnItem = new JMenuItem("End turn");
+		
 		helpMenu = new JMenu("Help");
 		helpMenuItem = new JMenuItem("Show rules");
 		
@@ -78,11 +84,18 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		fileMenu.add(loadMenuItem);
 		fileMenu.add(exitMenuItem);
 		
+		endTurnItem.addActionListener(this);
+		controlsMenu.add(endTurnItem);
+		
 		helpMenu.add(helpMenuItem);
 		helpMenuItem.addActionListener(this);
 		
+		
+		
 		menuBar.add(fileMenu);
+		menuBar.add(controlsMenu);
 		menuBar.add(helpMenu);
+		
 		
 		// Add the items to the window
 		panel.add(this);
@@ -262,6 +275,9 @@ public class View extends Canvas implements ActionListener, MouseListener {
 			}
 			//gameManager.loadGame();
 			repaint();
+		}
+		else if (event.getActionCommand().equals("End turn")) {
+			
 		}
 		else if (event.getActionCommand().equals("Show rules")) {
 			// Pop up a window with the rules
