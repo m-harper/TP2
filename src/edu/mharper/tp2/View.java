@@ -17,12 +17,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.FileChooserUI;
 
 public class View extends Canvas implements ActionListener, MouseListener {
 	
@@ -248,11 +250,17 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		}
 		else if (event.getActionCommand().equals("Save game")) {
 			gameManager.saveGame();
-			repaint();
+			JOptionPane.showMessageDialog(frame, "Game saved");
 		}
 		else if (event.getActionCommand().equals("Load game")) {
-			System.out.println("Triggered load game");
-			gameManager.loadGame();
+			JFileChooser fileChooser = new JFileChooser();
+			int retVal = fileChooser.showOpenDialog(frame);
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				String fileName = file.getAbsolutePath();
+				gameManager.loadGame(fileName);
+			}
+			//gameManager.loadGame();
 			repaint();
 		}
 		else if (event.getActionCommand().equals("Show rules")) {

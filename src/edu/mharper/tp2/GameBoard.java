@@ -135,4 +135,16 @@ public class GameBoard
 		
 		return pieces;
 	}
+	
+	public void update(ArrayList<GamePiece> pieces) {
+		for (int i = 0; i < Main.verticalSpaces; i++) {
+			for (int j = 0; j < Main.horizontalSpaces; j++) {
+				board[i][j] = null;
+			}
+		}
+		for (GamePiece piece : pieces) {
+			if (piece != null)
+				board[piece.getRow()][piece.getColumn()] = piece;
+		}
+	}
 }

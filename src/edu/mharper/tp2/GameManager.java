@@ -4,12 +4,18 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.CharBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 
 public class GameManager
@@ -72,8 +78,34 @@ public class GameManager
 		}
 	}
 		
-	public void loadGame() {
+	public void loadGame(String fileName) {
+		ArrayList<GamePiece> pieces = new ArrayList<GamePiece>();
+		File file = new File(fileName);
+		try {
+			Scanner scan = new Scanner(file);
+			while (scan.hasNext()) {
+				pieces.add(stringToPiece(scan.nextLine()));
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private GamePiece stringToPiece(String string) {
+		if (string.equals("null"))
+			return null;
+		String color = string.substring(0, string.indexOf('\t'));
+		string = string.substring(string.indexOf('\t') + 1);
+		int row = Integer.parseInt(string.substring(0, string.indexOf('\t')));
+		string = string.substring(string.indexOf('\t') + 1);
+		int col = Integer.parseInt(string);
 		
+		int colorInt = 0;
+		if (color.equals("red"))
+			colorInt = 1;
+		
+		return new GamePiece(colorInt, row, col);
 	}
 	
 	public ArrayList<GamePiece> getPieces()
