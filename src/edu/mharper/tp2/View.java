@@ -140,7 +140,7 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	
 	private void drawSpaces(Graphics g) {
 		Dimension panelSize = getParent().getSize();
-		System.out.println(panelSize);
+		//System.out.println(panelSize);
 		double horizontalSpacing = panelSize.getWidth() / Main.horizontalSpaces;
 		double verticalSpacing = panelSize.getHeight() / Main.verticalSpaces;
 		

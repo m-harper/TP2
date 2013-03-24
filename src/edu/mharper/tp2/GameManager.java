@@ -37,7 +37,20 @@ public class GameManager
 		String filename = "/" + dateFormat.format(date) + ".sav";
 		System.out.println(filename);
 		
-		File file = new File(filename);
+		/*try {
+			FileOutputStream ofs = new FileOutputStream(filename);
+		} catch (FileNotFoundException e) {
+			File file = new File(filename);
+			try {
+				file.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			saveGame();
+		}*/
+		
+		/*File file = new File("./" + filename);
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -56,7 +69,7 @@ public class GameManager
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 		
@@ -74,7 +87,7 @@ public class GameManager
 				GamePiece piece = board.getPiece(i,j);
 				
 				if (piece != null) {
-					System.out.println("Updating " + piece.getColor() + " piece");
+					//System.out.println("Updating " + piece.getColor() + " piece");
 					pieces.add(piece);
 				}
 			}
