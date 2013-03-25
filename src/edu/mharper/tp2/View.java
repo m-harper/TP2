@@ -34,6 +34,7 @@ public class View implements ActionListener {
 	// View main components
 	JFrame frame;
 	GameView gameView;
+	InfoView infoView;
 	JMenuBar menuBar;
 	
 	// Menu bar items
@@ -59,6 +60,7 @@ public class View implements ActionListener {
 	
 	public View() {
 		gameView = new GameView();
+		infoView = new InfoView();
 		initWindow();
 	}
 	
@@ -121,11 +123,12 @@ public class View implements ActionListener {
 	
 	private void initGameDisplay() {
 		Container pane = frame.getContentPane();
-		pane.add(gameView);	
+		pane.add(gameView, BorderLayout.PAGE_START);	
 	}
 	
 	private void initInfoDisplay() {
-
+		Container pane = frame.getContentPane();
+		pane.add(infoView, BorderLayout.PAGE_END);
 	}
 	
 	private void showIntroScreen() {

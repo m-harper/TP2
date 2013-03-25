@@ -58,7 +58,7 @@ public class GameBoard
 			return false;
 		
 		//if movement validity test passes, update board state
-		board[startPoint.getY()][startPoint.getX()].updatePosition(endPoint.getY(), endPoint.getX());
+		//board[startPoint.getY()][startPoint.getX()].updatePosition(endPoint.getY(), endPoint.getX());
 		board[endPoint.getY()][endPoint.getX()] = board[startPoint.getY()][startPoint.getX()];
 		board[startPoint.getY()][startPoint.getX()] = null;
 		

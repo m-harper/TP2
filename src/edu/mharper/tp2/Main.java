@@ -7,7 +7,7 @@ public class Main {
 	public static String gameTitle = "Fanorona";
 	public static int horizontalSpaces = 9;
 	public static int verticalSpaces = 5;
-	public static int tileSize = 50;
+	public static int tileSize = 100;
 	public static int pieceSize = tileSize / 2;
 	//public static int menuBarSize = 25;
 	public static int displayInfoSize = 150;
