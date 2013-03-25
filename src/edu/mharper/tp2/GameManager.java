@@ -17,7 +17,7 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
+//Responsible for enforcing the rules of the game
 public class GameManager
 {
 	private GameBoard board;
@@ -119,7 +119,7 @@ public class GameManager
 		for (int i = 0; i < Main.verticalSpaces; i++) {
 			for (int j = 0; j < Main.horizontalSpaces; j++) {
 				//System.out.println("Updating with " + gamePieces[i][j]);
-				GamePiece piece = board.getPiece(i,j);
+				GamePiece piece = board.getPiece(new Point(j,i));
 				
 				if (piece != null) {
 					//System.out.println("Updating " + piece.getColor() + " piece");

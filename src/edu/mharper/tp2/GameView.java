@@ -56,7 +56,7 @@ public class GameView extends Canvas implements MouseListener {
 			
 			int x = pieceSelection.getX() * Main.tileSize + Main.tileSize / 2;
 			int y = pieceSelection.getY() * Main.tileSize + Main.tileSize / 2;
-			ArrayList<Point> validMoves = gameManager.getBoard().getValidMoves(gameManager.getBoard().getPiece(pieceSelection.getX(), pieceSelection.getY()));
+			ArrayList<Point> validMoves = gameManager.getBoard().getValidMoves(pieceSelection);
 			for (int i = 0; i < validMoves.size(); i++) {
 				// Draw point from pieceSelection to its valid moves
 				g2.drawLine(x, y, validMoves.get(i).getX() * Main.tileSize + Main.tileSize / 2, validMoves.get(i).getY() * Main.tileSize + Main.tileSize / 2);

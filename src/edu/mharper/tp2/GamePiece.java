@@ -30,7 +30,7 @@ public class GamePiece
 	
 	//Changes piece position
 	//Assumed that the move is valid- validity will be checked by GameBoard
-	public void moveTo(int newRow, int newCol)
+	public void updatePosition(int newRow, int newCol)
 	{
 		row = newRow;
 		col = newCol;
