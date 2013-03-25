@@ -56,8 +56,8 @@ public class GameManager
 					String colorText = "";
 					if (piece.getColor() == Color.black)
 						colorText = "black";						
-					else if (piece.getColor() == Color.red)
-						colorText = "red";
+					else if (piece.getColor() == Color.white)
+						colorText = "white";
 					
 					fileText += colorText + "\t" + piece.getRow() + "\t" + piece.getColumn() + "\n";
 				}
@@ -106,7 +106,7 @@ public class GameManager
 		int col = Integer.parseInt(string);
 		
 		int colorInt = 0;
-		if (color.equals("red"))
+		if (color.equals("white"))
 			colorInt = 1;
 		
 		return new GamePiece(colorInt, row, col);

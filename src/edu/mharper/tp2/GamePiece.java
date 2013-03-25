@@ -21,7 +21,7 @@ public class GamePiece
 			color = Color.black;
 			break;
 		default:
-			color = Color.red;
+			color = Color.white;
 			break;
 		}
 		row = startRow;

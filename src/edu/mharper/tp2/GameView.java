@@ -40,7 +40,7 @@ public class GameView extends Canvas implements MouseListener {
 	
 	public void paint(Graphics g) {	
 		drawBackground(g);
-		drawSpaces(g);
+		//drawSpaces(g);
 		drawLines(g);
 		drawTileSelection(g);
 		drawPieces(g);
@@ -102,6 +102,30 @@ public class GameView extends Canvas implements MouseListener {
 			g2.drawLine(spacing, i * Main.tileSize + spacing, getParent().getWidth() - spacing, i * Main.tileSize + spacing);
 		}
 		
+		// Draw diagonals
+		for (int i = 0; i < Main.horizontalSpaces; i++) {
+			for (int j = 0; j < Main.verticalSpaces; j++) {
+				if (i % 2 == 0 && j % 2 == 0) {
+					// Draw down right
+					if (j != Main.verticalSpaces - 1 && i != Main.horizontalSpaces - 1) {
+						g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
+							(i + 1) * Main.tileSize + Main.tileSize / 2, (j + 1) * Main.tileSize + Main.tileSize / 2);
+					}
+					// Draw down left
+					if (i != 0 && j != Main.verticalSpaces - 1)
+						g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
+							(i - 1) * Main.tileSize + Main.tileSize / 2, (j + 1) * Main.tileSize + Main.tileSize / 2);
+				}
+				else if (i % 2 != 0 && j % 2 != 0) {
+					g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
+						(i - 1) * Main.tileSize + Main.tileSize / 2, (j + 1) * Main.tileSize + Main.tileSize / 2);
+					g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
+						(i + 1) * Main.tileSize + Main.tileSize / 2, (j + 1) * Main.tileSize + Main.tileSize / 2);
+					
+				}
+			}
+		}
+		/*
 		// Draw right diagonals
 		for (int i = 0; i < Main.horizontalSpaces; i++) {
 			// Draw every other space diagonal
@@ -131,6 +155,7 @@ public class GameView extends Canvas implements MouseListener {
 		// Draw shorter left diagonal
 		g2.drawLine(2 * Main.tileSize + spacing, spacing, spacing, 2 * Main.tileSize + spacing);
 		g2.drawLine(getParent().getWidth() - spacing, 2 * Main.tileSize + spacing, getParent().getWidth() - 2 * Main.tileSize - spacing, getParent().getHeight() - spacing);
+		*/
 	}
 	
 	//Draw game pieces over board	
