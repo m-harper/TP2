@@ -21,10 +21,14 @@ import javax.swing.JOptionPane;
 public class GameManager
 {
 	private GameBoard board;
+	private int redRemaining;
+	private int blackRemaining;
 	
 	public GameManager()
 	{
 		board = new GameBoard();
+		redRemaining = 22;
+		blackRemaining = 22;
 	}
 	
 	public void startGame()
