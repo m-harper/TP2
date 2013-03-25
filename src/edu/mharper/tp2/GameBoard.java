@@ -147,4 +147,8 @@ public class GameBoard
 				board[piece.getRow()][piece.getColumn()] = piece;
 		}
 	}
+	
+	public ArrayList<Point> getValidMoves(GamePiece piece) {
+		return new ArrayList<Point>();
+	}
 }

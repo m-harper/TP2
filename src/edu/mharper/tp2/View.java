@@ -173,6 +173,23 @@ public class View extends Canvas implements ActionListener, MouseListener {
 		drawTileSelection(g);
 		drawPieces(g);
 		drawSelection(g);
+		drawValidMoves(g);
+	}
+	
+	private void drawValidMoves(Graphics g) {
+		if (pieceSelection != null) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.green);
+			g2.setStroke(new BasicStroke(5));
+			
+			int x = pieceSelection.getX() * Main.tileSize + Main.tileSize / 2;
+			int y = pieceSelection.getY() * Main.tileSize + Main.tileSize / 2;
+			ArrayList<Point> validMoves = gameManager.getBoard().getValidMoves(gameManager.getBoard().getPiece(pieceSelection.getX(), pieceSelection.getY()));
+			for (int i = 0; i < validMoves.size(); i++) {
+				// Draw point from pieceSelection to its valid moves
+				g2.drawLine(x, y, validMoves.get(i).getX() * Main.tileSize + Main.tileSize / 2, validMoves.get(i).getY() * Main.tileSize + Main.tileSize / 2);
+			}
+		}
 	}
 	
 	private void drawBackground(Graphics g) {
