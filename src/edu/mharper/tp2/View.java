@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,21 +29,30 @@ import javax.swing.plaf.FileChooserUI;
 
 public class View extends Canvas implements ActionListener, MouseListener {
 	
+	// View main components
 	JFrame frame;
 	JPanel panel;
+	JPanel infoDisplay;
 	JMenuBar menuBar;
 	
+	// Menu bar items
 	JMenu fileMenu;
 	JMenu controlsMenu;
 	JMenu helpMenu;
 	
+	// File menu items
+	ArrayList<JMenuItem> fileMenuItems;
 	JMenuItem newGameMenuItem;
 	JMenuItem saveMenuItem;
 	JMenuItem loadMenuItem;
 	JMenuItem exitMenuItem;
 	
+	// Controls menu items
+	ArrayList<JMenuItem> controlMenuItems;
 	JMenuItem endTurnItem;
 	
+	// Help Menu Items;
+	ArrayList<JMenuItem> helpMenuItems;
 	JMenuItem helpMenuItem;
 	
 	Point pieceSelection;
@@ -51,68 +61,85 @@ public class View extends Canvas implements ActionListener, MouseListener {
 	private GameManager gameManager;
 	
 	public View() {
+		initGameManager();
+		initWindow();
+	}
+	
+	private void initGameManager() {
 		gameManager = new GameManager();
-		
+	}
+	
+	private void initWindow() {
 		frame = new JFrame(Main.gameTitle);
-		menuBar = new JMenuBar();
-		panel = new JPanel(new BorderLayout());
-		
-		fileMenu = new JMenu("File");
-		newGameMenuItem = new JMenuItem("New game");
-		saveMenuItem = new JMenuItem("Save game");
-		loadMenuItem = new JMenuItem("Load game");
-		exitMenuItem = new JMenuItem("Exit");
-		
-		controlsMenu = new JMenu("Controls");
-		endTurnItem = new JMenuItem("End turn");
-		
-		helpMenu = new JMenu("Help");
-		helpMenuItem = new JMenuItem("Show rules");
-		
-		// Set up window
+		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.setPreferredSize(new Dimension(Main.windowWidth, Main.windowHeight));
+		//frame.setPreferredSize(new Dimension(Main.windowWidth, Main.windowHeight));
+		initMenuBar();
+		initGameDisplay();
+		initInfoDisplay();
+		addMouseListener(this);
+		frame.pack();
+		frame.setVisible(true);
+		gameManager.startGame();
+	}
+	
+	private void initMenuBar() {
+		// Init menu bar
+		menuBar = new JMenuBar();
 		
-		// Set up menu
-		newGameMenuItem.addActionListener(this);
-		saveMenuItem.addActionListener(this);
-		loadMenuItem.addActionListener(this);
-		exitMenuItem.addActionListener(this);
-		fileMenu.add(newGameMenuItem);
-		fileMenu.add(saveMenuItem);
-		fileMenu.add(loadMenuItem);
-		fileMenu.add(exitMenuItem);
+		// Init menus
+		fileMenu = new JMenu("File");
+		controlsMenu = new JMenu("Controls");
+		helpMenu = new JMenu("Help");
 		
-		endTurnItem.addActionListener(this);
-		controlsMenu.add(endTurnItem);
+		// Init file menu
+		fileMenuItems = new ArrayList<JMenuItem>();
+		fileMenuItems.add(new JMenuItem("New game"));
+		fileMenuItems.add(new JMenuItem("Save game"));
+		fileMenuItems.add(new JMenuItem("Load game"));
+		fileMenuItems.add(new JMenuItem("Exit"));
+		for (JMenuItem item : fileMenuItems) {
+			item.addActionListener(this);
+			fileMenu.add(item);
+		}
 		
-		helpMenu.add(helpMenuItem);
-		helpMenuItem.addActionListener(this);
+		// Init controls menu
+		controlMenuItems = new ArrayList<JMenuItem>();
+		controlMenuItems.add(new JMenuItem("End turn"));
+		for (JMenuItem item : controlMenuItems) {
+			item.addActionListener(this);
+			controlsMenu.add(item);
+		}
 		
-		
+		// Init help menu
+		helpMenuItems = new ArrayList<JMenuItem>();
+		helpMenuItems.add(new JMenuItem("Show rules"));
+		for (JMenuItem item : helpMenuItems) {
+			item.addActionListener(this);
+			helpMenu.add(item);
+		}
 		
 		menuBar.add(fileMenu);
 		menuBar.add(controlsMenu);
 		menuBar.add(helpMenu);
 		
-		
-		// Add the items to the window
-		panel.add(this);
 		frame.setJMenuBar(menuBar);
-		frame.add(panel);
-		
-		// Add the mouse listener
-		this.addMouseListener(this);
-		
-		frame.pack();
-		frame.setVisible(true);
-		
-		
-		//Start game by default
-		gameManager.startGame();
-		
-		//showIntroScreen();
+	}
+	
+	private void initGameDisplay() {
+		panel = new JPanel(new BorderLayout());
+		panel.setPreferredSize(new Dimension(Main.windowWidth, Main.windowHeight));
+		panel.setMaximumSize(new Dimension(Main.windowWidth, Main.windowHeight));
+		panel.add(this);
+		frame.add(panel, BorderLayout.PAGE_START);		
+	}
+	
+	private void initInfoDisplay() {
+		infoDisplay = new JPanel(new BorderLayout());
+		infoDisplay.setPreferredSize(new Dimension(Main.windowWidth, 50));
+		infoDisplay.setMaximumSize(new Dimension(Main.windowWidth, 50));
+		frame.add(infoDisplay, BorderLayout.PAGE_END);
 	}
 	
 	private void showIntroScreen() {

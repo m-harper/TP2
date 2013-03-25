@@ -11,8 +11,8 @@ public class Main {
 	public static int pieceSize = tileSize / 2;
 	public static int menuBarSize = 25;
 	public static int displayInfoSize = 150;
-	public static int windowHeight = Main.verticalSpaces * Main.tileSize + 51; // 51 is offset constant 
-	public static int windowWidth = Main.horizontalSpaces * Main.tileSize + 6; // 6 is offset constant
+	public static int windowHeight = Main.verticalSpaces * Main.tileSize;  
+	public static int windowWidth = Main.horizontalSpaces * Main.tileSize; 
 	
 	public static void main(String[] args) {
 
