@@ -49,9 +49,10 @@ public class View implements ActionListener {
 	JMenuItem loadMenuItem;
 	JMenuItem exitMenuItem;
 	
-	// Controls menu items
-	ArrayList<JMenuItem> controlMenuItems;
+	// Game menu items
+	ArrayList<JMenuItem> gameMenuItems;
 	JMenuItem endTurnItem;
+	JMenuItem settingsMenuItem;
 	
 	// Help Menu Items;
 	ArrayList<JMenuItem> helpMenuItems;
@@ -74,7 +75,6 @@ public class View implements ActionListener {
 		initGameDisplay();
 		initInfoDisplay();
 		frame.pack();
-		
 		frame.setVisible(true);
 	}
 	
@@ -84,7 +84,7 @@ public class View implements ActionListener {
 		
 		// Init menus
 		fileMenu = new JMenu("File");
-		controlsMenu = new JMenu("Controls");
+		controlsMenu = new JMenu("Game");
 		helpMenu = new JMenu("Help");
 		
 		// Init file menu
@@ -98,10 +98,11 @@ public class View implements ActionListener {
 			fileMenu.add(item);
 		}
 		
-		// Init controls menu
-		controlMenuItems = new ArrayList<JMenuItem>();
-		controlMenuItems.add(new JMenuItem("End turn"));
-		for (JMenuItem item : controlMenuItems) {
+		// Init game menu
+		gameMenuItems = new ArrayList<JMenuItem>();
+		gameMenuItems.add(new JMenuItem("End turn"));
+		gameMenuItems.add(new JMenuItem("Settings"));
+		for (JMenuItem item : gameMenuItems) {
 			item.addActionListener(this);
 			controlsMenu.add(item);
 		}
@@ -180,6 +181,9 @@ public class View implements ActionListener {
 		}
 		else if (event.getActionCommand().equals("End turn")) {
 			
+		}
+		else if (event.getActionCommand().equals("Settings")) {
+			SettingsView set = new SettingsView();
 		}
 		else if (event.getActionCommand().equals("Show rules")) {
 			// Pop up a window with the rules

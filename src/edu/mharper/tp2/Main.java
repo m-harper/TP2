@@ -3,8 +3,6 @@ package edu.mharper.tp2;
 import javax.swing.JOptionPane;
 
 public class Main {
-	
-	
 
 	public static String gameTitle = "Fanorona";
 	public static int horizontalSpaces = 9;
