@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -19,6 +20,7 @@ public class InfoView extends JPanel {
 	JPanel remainingPanel;
 	JLabel whiteRemaining;
 	JLabel blackRemaining;
+	JButton endTurn;
 	
 	Timer timer;
 	public long time;
@@ -29,6 +31,9 @@ public class InfoView extends JPanel {
 		white = View.gameView.gameManager.countWhite();
 		black = View.gameView.gameManager.countBlack();
 		
+		endTurn = new JButton("End turn");
+		endTurn.setPreferredSize(new Dimension(Main.windowHeight / 5, 25));
+		
 		setPreferredSize(new Dimension(Main.windowWidth, Main.displayInfoSize));
 		
 		timeRemaining = new JLabel("" + time / 1000, JLabel.CENTER);
@@ -36,6 +41,7 @@ public class InfoView extends JPanel {
 		whiteRemaining = new JLabel("White remaining: " + white, JLabel.CENTER);
 		blackRemaining = new JLabel("Black remaining: " + black, JLabel.CENTER);
 		remainingPanel = new JPanel(new FlowLayout());
+		remainingPanel.setPreferredSize(new Dimension(Main.windowWidth, 50));
 		
 		time = Main.defaultTime;
 		timer = new Timer(1000, new ActionListener() {
@@ -56,6 +62,7 @@ public class InfoView extends JPanel {
 		remainingPanel.add(blackRemaining);
 		add(timeRemaining, BorderLayout.NORTH);
 		add(remainingPanel, BorderLayout.SOUTH);
+		add(endTurn);
 	}
 	
 	public void resetTime() {
