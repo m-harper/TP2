@@ -211,7 +211,7 @@ public class GameManager
 		int deltaX = movePoint.getX() - x;
 		int deltaY = movePoint.getY() - y;
 		
-		Point withdrawPoint = new Point(movePoint.getX() - deltaX, movePoint.getY() - deltaY);
+		Point withdrawPoint = new Point(x - deltaX, y - deltaY);
 		
 		//Check for a possible withdrawal capture
 		if(board.isValidPoint(withdrawPoint) && board.hasPiece(withdrawPoint) && 
@@ -253,7 +253,7 @@ public class GameManager
 		Point takePoint = new Point(takeX, takeY);
 		
 		while(board.isValidPoint(takePoint) && board.hasPiece(takePoint)
-				&& board.getPiece(takePoint).getColor() == piece.getColor())
+				&& board.getPiece(takePoint).getColor() != piece.getColor())
 		{
 			board.removePiece(takePoint);
 			takeX += deltaX;
@@ -276,7 +276,7 @@ public class GameManager
 		Point takePoint = new Point(takeX, takeY);
 		
 		while(board.isValidPoint(takePoint) && board.hasPiece(takePoint)
-				&& board.getPiece(takePoint).getColor() == piece.getColor())
+				&& board.getPiece(takePoint).getColor() != piece.getColor())
 		{
 			board.removePiece(takePoint);
 			takeX -= deltaX;

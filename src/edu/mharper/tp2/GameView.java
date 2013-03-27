@@ -210,7 +210,16 @@ public class GameView extends Canvas implements MouseListener {
 				Point piecePoint = new Point(pieceX, pieceY);
 				
 				GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
-				gameManager.movePiece(selectedPiece, new Point(xTile, yTile));
+				
+				//Move and capture pieces
+				Point movePoint = new Point(xTile, yTile);
+				if(gameManager.isAdvanceCaptureMove(selectedPiece, movePoint))
+					gameManager.advanceCapturePieces(selectedPiece, movePoint);
+				else if(gameManager.isWithdrawCaptureMove(selectedPiece, movePoint))
+					gameManager.withdrawCapturePieces(selectedPiece, movePoint);
+				
+				gameManager.movePiece(selectedPiece, movePoint);
+				
 				// Reset timer
 				View.infoView.resetTime();
 				View.infoView.updateColors();
