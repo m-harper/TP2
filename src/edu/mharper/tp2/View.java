@@ -33,7 +33,7 @@ public class View implements ActionListener {
 	
 	// View main components
 	JFrame frame;
-	GameView gameView;
+	public static GameView gameView;
 	public static InfoView infoView;
 	JMenuBar menuBar;
 	

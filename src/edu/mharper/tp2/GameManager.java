@@ -15,14 +15,10 @@ import java.util.Scanner;
 public class GameManager
 {
 	private GameBoard board;
-	private int redRemaining;
-	private int blackRemaining;
 	
 	public GameManager()
 	{
 		board = new GameBoard();
-		redRemaining = 22;
-		blackRemaining = 22;
 	}
 	
 	public void startGame()
@@ -33,6 +29,26 @@ public class GameManager
 	public GameBoard getBoard()
 	{
 		return board;
+	}
+	
+	public int countWhite() {
+		int count = 0;
+		for (GamePiece piece : board.getPiecesList()) {
+			if (piece != null && piece.getColor().equals(Color.white)) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	public int countBlack() {
+		int count = 0;
+		for (GamePiece piece : board.getPiecesList()) {
+			if (piece != null && piece.getColor().equals(Color.black)) {
+				count++;
+			}
+		}
+		return count;
 	}
 	
 	public void saveGame() {

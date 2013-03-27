@@ -23,17 +23,17 @@ public class InfoView extends JPanel {
 	Timer timer;
 	public long time;
 	
-	int red, black;
+	int white, black;
 	
 	public InfoView() {
-		red = 0;
-		black = 0;
+		white = View.gameView.gameManager.countWhite();
+		black = View.gameView.gameManager.countBlack();
 		
 		setPreferredSize(new Dimension(Main.windowWidth, Main.displayInfoSize));
 		
 		timeRemaining = new JLabel("" + time / 1000, JLabel.CENTER);
 		timeRemaining.setPreferredSize(new Dimension(Main.windowWidth, 25));
-		redRemaining = new JLabel("Red remaining: " + red, JLabel.CENTER);
+		redRemaining = new JLabel("White remaining: " + white, JLabel.CENTER);
 		blackRemaining = new JLabel("Black remaining: " + black, JLabel.CENTER);
 		remainingPanel = new JPanel(new FlowLayout());
 		
@@ -62,13 +62,4 @@ public class InfoView extends JPanel {
 		time = Main.defaultTime;
 		timeRemaining.setText("" + time / 1000);
 	}
-	
-	/*public void paint(Graphics g) {
-		drawBackground(g);
-	}
-	
-	private void drawBackground(Graphics g) {
-		g.setColor(Color.white);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-	}*/
 }

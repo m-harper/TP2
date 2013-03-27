@@ -14,7 +14,7 @@ public class GameView extends Canvas implements MouseListener {
 	
 	public Point pieceSelection;
 	public Point tileSelection;
-	private GameManager gameManager;
+	public static GameManager gameManager;
 	
 	public GameView() {
 		setPreferredSize(new Dimension(Main.windowWidth, Main.windowHeight));
@@ -46,8 +46,6 @@ public class GameView extends Canvas implements MouseListener {
 		drawPieces(g);
 		drawSelection(g);
 		drawValidMoves(g);
-		//pieceSelection = null;
-		//tileSelection = null;
 	}
 	
 	private void drawValidMoves(Graphics g) {
@@ -79,10 +77,8 @@ public class GameView extends Canvas implements MouseListener {
 	
 	private void drawSpaces(Graphics g) {
 		Dimension panelSize = getParent().getSize();
-		//System.out.println(panelSize);
 		double horizontalSpacing = panelSize.getWidth() / Main.horizontalSpaces;
 		double verticalSpacing = panelSize.getHeight() / Main.verticalSpaces;
-		
 		
 		g.setColor(Color.white);
 		for (int i = 0; i < Main.horizontalSpaces; i++) {
@@ -134,37 +130,6 @@ public class GameView extends Canvas implements MouseListener {
 				}
 			}
 		}
-		/*
-		// Draw right diagonals
-		for (int i = 0; i < Main.horizontalSpaces; i++) {
-			// Draw every other space diagonal
-			if (i % 2 == 0 && i + 4 < Main.horizontalSpaces) {
-				int xStart = i * Main.tileSize + spacing;
-				int xEnd = (i + 4) * Main.tileSize + spacing;
-				int yStart = spacing;
-				int yEnd = getParent().getHeight() - spacing;
-				g2.drawLine(xStart, yStart, xEnd, yEnd);
-			}
-		}
-		// Draw shorter right diagonal
-		g2.drawLine(getParent().getWidth() - (2 * Main.tileSize + spacing) , spacing, getParent().getWidth() - spacing, Main.tileSize * 2 + spacing);
-		g2.drawLine(spacing, 2 * Main.tileSize + spacing, 2 * Main.tileSize + spacing, getParent().getHeight() - spacing);
-		
-		// Draw left diagonals
-		for (int i = Main.horizontalSpaces; i >= 0; i--) {
-			// Draw every other space diagonal
-			if (i % 2 == 0 && i - 4 >= 0) {
-				int xStart = i * Main.tileSize + spacing;
-				int xEnd = (i - 4) * Main.tileSize + spacing;
-				int yStart = spacing;
-				int yEnd = getParent().getHeight() - spacing;
-				g2.drawLine(xStart, yStart, xEnd, yEnd);
-			}
-		}
-		// Draw shorter left diagonal
-		g2.drawLine(2 * Main.tileSize + spacing, spacing, spacing, 2 * Main.tileSize + spacing);
-		g2.drawLine(getParent().getWidth() - spacing, 2 * Main.tileSize + spacing, getParent().getWidth() - 2 * Main.tileSize - spacing, getParent().getHeight() - spacing);
-		*/
 	}
 	
 	//Draw game pieces over board	
