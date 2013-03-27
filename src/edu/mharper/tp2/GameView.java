@@ -211,6 +211,7 @@ public class GameView extends Canvas implements MouseListener {
 				gameManager.movePiece(selectedPiece, new Point(xTile, yTile));
 				// Reset timer
 				View.infoView.resetTime();
+				View.infoView.updateColors();
 				
 				pieceSelection = null;
 			}
