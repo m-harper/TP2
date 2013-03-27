@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class InfoView extends JPanel {
+public class InfoView extends JPanel implements ActionListener {
 	
 	JLabel timeRemaining;
 	JPanel remainingPanel;
@@ -76,5 +76,10 @@ public class InfoView extends JPanel {
 		
 		whiteRemaining.setText("White remaining: " + white);
 		blackRemaining.setText("Black remaining: " + black);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// End turn
 	}
 }
