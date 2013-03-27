@@ -51,4 +51,9 @@ public class GamePiece
 		return col;
 	}
 	
+	public Point getPoint()
+	{
+		return new Point(col, row);
+	}
+	
 }

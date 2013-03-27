@@ -4,18 +4,12 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.CharBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 //Responsible for enforcing the rules of the game
 public class GameManager
@@ -56,8 +50,8 @@ public class GameManager
 					String colorText = "";
 					if (piece.getColor() == Color.black)
 						colorText = "black";						
-					else if (piece.getColor() == Color.white)
-						colorText = "white";
+					else if (piece.getColor() == Color.red)
+						colorText = "red";
 					
 					fileText += colorText + "\t" + piece.getRow() + "\t" + piece.getColumn() + "\n";
 				}
@@ -106,7 +100,7 @@ public class GameManager
 		int col = Integer.parseInt(string);
 		
 		int colorInt = 0;
-		if (color.equals("white"))
+		if (color.equals("red"))
 			colorInt = 1;
 		
 		return new GamePiece(colorInt, row, col);
@@ -130,4 +124,148 @@ public class GameManager
 		return pieces;
 	}
 	
+	//Returns all valid moves by a piece at Point point
+	//Will enforce capturing/paika move preference
+	public ArrayList<Point> getValidMoves(GamePiece piece)
+	{
+		ArrayList<Point> validMoves = board.getPossibleMoves(piece.getPoint());
+		
+		//Check for capturing moves; if so, remove paika moves
+		boolean capturePossible = false;
+		
+		for(Point movePoint : validMoves)
+		{
+			if(isAnyCaptureMove(piece, movePoint))
+			{
+				capturePossible = true;
+				break;
+			}
+		}
+		
+		if(capturePossible)
+		{
+			for(int i = 0; i < validMoves.size(); i++)
+			{
+				if(isPaikaMove(piece, validMoves.get(i)))
+				{
+					validMoves.remove(i);
+					i--;
+				}
+			}
+		}
+		
+		return validMoves;		
+	}	
+	
+	//Moves game piece (does not enforce effects of move)
+	//Returns false if move is unsuccessful for any reason
+	public boolean movePiece(GamePiece piece, Point movePoint)
+	{
+		if(piece == null)
+			return false;
+		
+		return board.movePiece(piece.getPoint(), movePoint);
+	}
+	
+	public boolean isAdvanceCaptureMove(GamePiece piece, Point movePoint)
+	{
+		//Assumed that movePoint is adjacent to piece's current position
+		int x = piece.getColumn();
+		int y = piece.getRow();
+		
+		int deltaX = movePoint.getX() - x;
+		int deltaY = movePoint.getY() - y;
+		
+		Point advancePoint = new Point(movePoint.getX() + deltaX, movePoint.getY() + deltaY);
+		
+		//Check for a possible advancing capture
+		if(board.isValidPoint(advancePoint) && board.hasPiece(advancePoint) && 
+				board.getPiece(advancePoint).getColor() != piece.getColor())
+			return true;
+	
+		return false;		
+	}
+	
+	public boolean isWithdrawCaptureMove(GamePiece piece, Point movePoint)
+	{
+		//Assumed that movePoint is adjacent to piece's current position
+		int x = piece.getColumn();
+		int y = piece.getRow();
+		
+		int deltaX = movePoint.getX() - x;
+		int deltaY = movePoint.getY() - y;
+		
+		Point withdrawPoint = new Point(movePoint.getX() - deltaX, movePoint.getY() - deltaY);
+		
+		//Check for a possible withdrawal capture
+		if(board.isValidPoint(withdrawPoint) && board.hasPiece(withdrawPoint) && 
+				board.getPiece(withdrawPoint).getColor() != piece.getColor())
+			return true;
+		
+		return false;		
+		
+	}
+	
+	public boolean isAnyCaptureMove(GamePiece piece, Point movePoint)
+	{
+		return(isAdvanceCaptureMove(piece, movePoint) || isWithdrawCaptureMove(piece, movePoint));
+	}
+	
+	//Returns if move could be either an advance capture or a withdraw capture
+	public boolean isAdvanceAndWithdrawCaptureMove(GamePiece piece, Point movePoint)
+	{
+		return(isAdvanceCaptureMove(piece, movePoint) && isWithdrawCaptureMove(piece, movePoint));
+	}
+	
+	public boolean isPaikaMove(GamePiece piece, Point movePoint)
+	{
+		//Assumed that movePoint is adjacent to piece's current position
+		return(!isAnyCaptureMove(piece, movePoint));
+	}
+
+	//Removes pieces taken by a valid advancing capture from startPoint to endPoint
+	public void advanceCapturePieces(GamePiece piece, Point movePoint)
+	{
+		Point piecePoint = piece.getPoint();
+		
+		int deltaX = movePoint.getX() - piecePoint.getX();
+		int deltaY = movePoint.getY() - piecePoint.getY();
+		
+		int takeX = movePoint.getX() + deltaX;
+		int takeY = movePoint.getY() + deltaY;
+		
+		Point takePoint = new Point(takeX, takeY);
+		
+		while(board.isValidPoint(takePoint) && board.hasPiece(takePoint)
+				&& board.getPiece(takePoint).getColor() == piece.getColor())
+		{
+			board.removePiece(takePoint);
+			takeX += deltaX;
+			takeY += deltaY;
+			takePoint = new Point(takeX, takeY);
+		}
+	}
+	
+	//Removes pieces taken by a valid withdrawing capture from startPoint to endPoint
+	public void withdrawCapturePieces(GamePiece piece, Point movePoint)
+	{
+		Point piecePoint = piece.getPoint();
+		
+		int deltaX = movePoint.getX() - piecePoint.getX();
+		int deltaY = movePoint.getY() - piecePoint.getY();
+		
+		int takeX = piece.getPoint().getX() - deltaX;
+		int takeY = piece.getPoint().getY() - deltaY;
+		
+		Point takePoint = new Point(takeX, takeY);
+		
+		while(board.isValidPoint(takePoint) && board.hasPiece(takePoint)
+				&& board.getPiece(takePoint).getColor() == piece.getColor())
+		{
+			board.removePiece(takePoint);
+			takeX -= deltaX;
+			takeY -= deltaY;
+			takePoint = new Point(takeX, takeY);
+		}
+	}
 }

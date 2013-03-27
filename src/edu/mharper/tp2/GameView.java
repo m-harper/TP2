@@ -46,6 +46,8 @@ public class GameView extends Canvas implements MouseListener {
 		drawPieces(g);
 		drawSelection(g);
 		drawValidMoves(g);
+		//pieceSelection = null;
+		//tileSelection = null;
 	}
 	
 	private void drawValidMoves(Graphics g) {
@@ -54,9 +56,15 @@ public class GameView extends Canvas implements MouseListener {
 			g2.setColor(Color.green);
 			g2.setStroke(new BasicStroke(5));
 			
-			int x = pieceSelection.getX() * Main.tileSize + Main.tileSize / 2;
-			int y = pieceSelection.getY() * Main.tileSize + Main.tileSize / 2;
-			ArrayList<Point> validMoves = gameManager.getBoard().getValidMoves(pieceSelection);
+			int x = pieceSelection.getX() + Main.pieceSize / 2; //* Main.tileSize + Main.tileSize / 2;
+			int y = pieceSelection.getY() + Main.pieceSize / 2; //* Main.tileSize + Main.tileSize / 2;
+			
+			//Point on the board (in units of tiles)
+			int pieceX = coordToTile(pieceSelection.getX());
+			int pieceY = coordToTile(pieceSelection.getY());
+			Point piecePoint = new Point(pieceX, pieceY);
+			
+			ArrayList<Point> validMoves = gameManager.getValidMoves(gameManager.getBoard().getPiece(piecePoint));
 			for (int i = 0; i < validMoves.size(); i++) {
 				// Draw point from pieceSelection to its valid moves
 				g2.drawLine(x, y, validMoves.get(i).getX() * Main.tileSize + Main.tileSize / 2, validMoves.get(i).getY() * Main.tileSize + Main.tileSize / 2);
@@ -182,7 +190,7 @@ public class GameView extends Canvas implements MouseListener {
 		if (pieceSelection != null) {
 			g.fillOval(pieceSelection.getX(), pieceSelection.getY(), Main.pieceSize, Main.pieceSize);
 		}
-		pieceSelection = null;
+		//pieceSelection = null;
 	}
 	
 	private void drawTileSelection(Graphics g) {
@@ -190,7 +198,7 @@ public class GameView extends Canvas implements MouseListener {
 			g.setColor(Color.green);
 			g.fillOval(tileSelection.getX(), tileSelection.getY(), Main.tileSize, Main.tileSize);
 		}
-		tileSelection = null;
+		//tileSelection = null;
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -226,16 +234,28 @@ public class GameView extends Canvas implements MouseListener {
 			int xCoord = xTile * Main.tileSize + Main.pieceSize / 2;
 			int yCoord = yTile * Main.tileSize + Main.pieceSize / 2;
 			pieceSelection = new Point(xCoord, yCoord);
-			repaint();
+			//repaint();
 		}
 		else {
-			// Highlight the tile
-			int xCoord = xTile * Main.tileSize;
-			int yCoord = yTile * Main.tileSize;
-			tileSelection = new Point(xCoord, yCoord);
-			repaint();
+			if(pieceSelection != null) {
+				int pieceX = coordToTile(pieceSelection.getX());
+				int pieceY = coordToTile(pieceSelection.getY());
+				Point piecePoint = new Point(pieceX, pieceY);
+				
+				GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
+				gameManager.movePiece(selectedPiece, new Point(xTile, yTile));
+				
+				pieceSelection = null;
+			}
+			else {
+				// If piece not selected, highlight the tile
+				int xCoord = xTile * Main.tileSize;
+				int yCoord = yTile * Main.tileSize;
+				tileSelection = new Point(xCoord, yCoord);
+				//repaint();
+			}
 		}
-		
+		repaint();
 	}
 	
 	boolean isPiecePresent(int x, int y) {

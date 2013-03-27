@@ -10,7 +10,7 @@ public class GameBoard
 	private int numRows;
 	private int numCols;
 	
-	//Default constructor: constructs a 5 row by 9 col board
+	//Default constructor: constructs a board based on option values
 	public GameBoard()
 	{
 		//pieces = new ArrayList<GamePieces>();
@@ -49,7 +49,6 @@ public class GameBoard
 		}
 	}
 	
-	
 	//Attempts to move piece at startPoint to endPoint
 	//Returns false and does nothing if move is invalid
 	public boolean movePiece(Point startPoint, Point endPoint)
@@ -58,51 +57,30 @@ public class GameBoard
 			return false;
 		
 		//if movement validity test passes, update board state
-		//board[startPoint.getY()][startPoint.getX()].updatePosition(endPoint.getY(), endPoint.getX());
+		board[startPoint.getY()][startPoint.getX()].updatePosition(endPoint.getY(), endPoint.getX());
 		board[endPoint.getY()][endPoint.getX()] = board[startPoint.getY()][startPoint.getX()];
 		board[startPoint.getY()][startPoint.getX()] = null;
 		
 		return true;
 	}
 	
-	//Removes pieces taken by a valid approaching capture from startPoint to endPoint
-	public void capturePiecesApproaching(Point startPoint, Point endPoint)
-	{
-		int deltaX = endPoint.getX() - startPoint.getX();
-		int deltaY = endPoint.getY() - startPoint.getY();
-		
-		int takeX = endPoint.getX() + deltaX;
-		int takeY = endPoint.getY() + deltaY;
-		
-		while(removePiece(takeX, takeY))
-		{
-			takeX += deltaX;
-			takeY += deltaY;
-		}
-	}
-	
-	//Removes pieces taken by a valid retreating take from startPoint to endPoint
-	public void capturePiecesRetreating(Point startPoint, Point endPoint)
-	{
-		capturePiecesApproaching(endPoint, startPoint);
-	}
 	
 	//Attempts to remove piece from (pieceRow, pieceCol)
 	//Returns false if remove is invalid
-	private boolean removePiece(int x, int y)
+	public boolean removePiece(Point point)
 	{
-		if(board[y][x] == null)
+		if(board[point.getY()][point.getX()] == null)
 			return false;
 		
-		board[y][x] = null;
+		board[point.getY()][point.getX()] = null;
 		return true;
 	}
 
 	//Checks if represented move is a valid one
-	private boolean testMovePiece(Point startPoint, Point endPoint)
+	public boolean testMovePiece(Point startPoint, Point endPoint)
 	{
 		//Check if there is a piece to be moved
-		if(hasPiece(startPoint))
+		if(!hasPiece(startPoint))
 			return false;
 		
 		//Check if move is on the board
@@ -112,20 +90,23 @@ public class GameBoard
 			return false;
 		
 		//Check if move is to an adjacent spot
-		boolean isAdjacentMove = (Math.abs(startPoint.getX() - endPoint.getX()) <= 1) && 
-									(Math.abs(startPoint.getY() - endPoint.getY()) <= 1);
+		int xDist = Math.abs(startPoint.getX() - endPoint.getX());
+		int yDist = Math.abs(startPoint.getY() - endPoint.getY());
+		boolean isAdjacentMove = (xDist <= 1) && (yDist <= 1);
+		
 		if(!isAdjacentMove)
 			return false;
 		
-		boolean isDiagonalMove = (endPoint.getX() - startPoint.getX()) % 2 == 1 && 
-									(endPoint.getY() - endPoint.getY()) % 2 == 1;
+		boolean isDiagonalMove = xDist == 1 && yDist == 1;
+				//(endPoint.getX() - startPoint.getX()) % 2 == 1 && 
+									//(endPoint.getY() - endPoint.getY()) % 2 == 1;
 		
 		//If move is diagonal, check if spot allows diagonal moves 
-		if(isDiagonalMove && canMoveDiagonal(startPoint))
+		if(isDiagonalMove && !canMoveDiagonal(startPoint))
 			return false;
 		
 		//Check if spot being moved to is empty
-		if(hasPiece(startPoint))
+		if(hasPiece(endPoint))
 			return false;
 		
 		return true;
@@ -133,14 +114,14 @@ public class GameBoard
 	
 	public ArrayList<Point> getValidCapturingMoves(Point point)
 	{
-		ArrayList<Point> validMoves = getValidMoves(point);
+		ArrayList<Point> validMoves = getPossibleMoves(point);
 		return validMoves;		
 	}
 	
 	public ArrayList<Point> getValidChainMoves(Point point, ArrayList<Point> prevMoves)
 	{
 		//Get initially valid moves
-		ArrayList<Point> validMoves = getValidMoves(point);
+		ArrayList<Point> validMoves = getPossibleMoves(point);
 		
 		//Remove moves to previously visited points
 		for(int i = 0; i < validMoves.size(); i++)
@@ -161,7 +142,7 @@ public class GameBoard
 	
 	//Given a point with a piece, determines which moves this piece could go to
 	//Returns null if there is no piece
-	public ArrayList<Point> getValidMoves(Point piecePoint)
+	public ArrayList<Point> getPossibleMoves(Point piecePoint)
 	{
 		ArrayList<Point> validMoves = new ArrayList<Point>();
 		int x = piecePoint.getX();
@@ -197,6 +178,23 @@ public class GameBoard
 		return (board[point.getY()][point.getX()] != null);
 	}
 	
+	//Returns true if point is on the board
+	public boolean isValidPoint(Point point)
+	{
+		if(point.getX() < 0 || point.getX() >= numCols)
+			return false;
+		
+		if(point.getY() < 0 || point.getY() >= numRows)
+			return false;
+		
+		return true;
+	}
+	
+	public boolean isValidPoint(int x, int y)
+	{
+		return isValidPoint(new Point(x,y));
+	}
+	
 	public GamePiece getPiece(Point point)
 	{
 		return board[point.getY()][point.getX()];
@@ -228,6 +226,7 @@ public class GameBoard
 		return pieces;
 	}
 	
+	//Clears board and places all pieces in [pieces] on the board
 	public void update(ArrayList<GamePiece> pieces) {
 		for (int i = 0; i < Main.verticalSpaces; i++) {
 			for (int j = 0; j < Main.horizontalSpaces; j++) {
@@ -240,7 +239,7 @@ public class GameBoard
 		}
 	}
 	
-	public ArrayList<Point> getValidMoves(GamePiece piece) {
+	public ArrayList<Point> getPossibleMoves(GamePiece piece) {
 		return new ArrayList<Point>();
 	}
 		
