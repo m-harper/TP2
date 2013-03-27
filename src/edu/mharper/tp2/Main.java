@@ -15,6 +15,7 @@ public class Main {
 	public static int defaultTime = 5000;
 	
 	public static void main(String[] args) {
+		
 		int choice = JOptionPane.showOptionDialog(null, "Start as server?", "Server setup", JOptionPane.YES_NO_OPTION, 1, null, null, null);
 		switch (choice) {
 		case 0:

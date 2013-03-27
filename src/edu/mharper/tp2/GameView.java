@@ -104,7 +104,7 @@ public class GameView extends Canvas implements MouseListener {
 		
 		// Draw horizontal lines
 		for (int i = 0; i < Main.verticalSpaces; i++) {
-			g2.drawLine(spacing, i * Main.tileSize + spacing, getParent().getWidth() - spacing, i * Main.tileSize + spacing);
+			g2.drawLine(spacing, i * Main.tileSize + spacing, Main.tileSize * Main.horizontalSpaces - spacing, i * Main.tileSize + spacing);
 		}
 		
 		// Draw diagonals

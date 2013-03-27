@@ -32,7 +32,7 @@ import javax.swing.plaf.FileChooserUI;
 public class View implements ActionListener {
 	
 	// View main components
-	JFrame frame;
+	public static JFrame frame;
 	public static GameView gameView;
 	public static InfoView infoView;
 	JMenuBar menuBar;
@@ -69,7 +69,7 @@ public class View implements ActionListener {
 		frame = new JFrame(Main.gameTitle);
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		
 		initMenuBar();
 		initGameDisplay();

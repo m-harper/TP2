@@ -21,6 +21,11 @@ public class GameManager
 		board = new GameBoard();
 	}
 	
+	public void genBoard() {
+		board = new GameBoard();
+		View.frame.pack();
+		startGame();
+	}
 	public void startGame()
 	{
 		board.initPieces();

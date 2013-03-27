@@ -67,7 +67,10 @@ public class SettingsView implements ActionListener {
 		}
 		
 		// Trigger new game
-	
+		View.gameView.gameManager.genBoard();
+		Main.windowWidth = Main.horizontalSpaces * Main.tileSize;
+		Main.windowHeight = Main.verticalSpaces * Main.tileSize;
+		View.gameView.repaint();
 	}
 	
 }
