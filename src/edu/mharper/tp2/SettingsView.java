@@ -28,10 +28,10 @@ public class SettingsView implements ActionListener {
 		
 		JPanel rowPanel = new JPanel(new FlowLayout());
 		rowButton = new JButton("Set number of rows");
-		rowButton.setPreferredSize(new Dimension(175, 35));
+		rowButton.setPreferredSize(new Dimension(200, 35));
 		
 		rowField = new JTextField("" + Main.verticalSpaces);
-		rowField.setPreferredSize(new Dimension(175, 25)); 
+		rowField.setPreferredSize(new Dimension(100, 25)); 
 		
 		rowButton.addActionListener(this);
 		rowPanel.add(rowField);
@@ -40,10 +40,10 @@ public class SettingsView implements ActionListener {
 		
 		JPanel colPanel = new JPanel(new FlowLayout());
 		colButton = new JButton("Set number of columns");
-		colButton.setPreferredSize(new Dimension(175, 35));
+		colButton.setPreferredSize(new Dimension(200, 35));
 		
 		colField = new JTextField("" + Main.horizontalSpaces); 
-		colField.setPreferredSize(new Dimension(175, 25));
+		colField.setPreferredSize(new Dimension(100, 25));
 		
 		colButton.addActionListener(this);
 		colPanel.add(colField);
@@ -67,6 +67,7 @@ public class SettingsView implements ActionListener {
 		}
 		
 		// Trigger new game
+	
 	}
 	
 }
