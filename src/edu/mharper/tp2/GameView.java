@@ -193,6 +193,8 @@ public class GameView extends Canvas implements MouseListener {
 		int xTile = coordToTile(x);
 		int yTile = coordToTile(y);
 		
+		tileSelection = null;
+		
 		// Highlight the piece if there is one
 		if (isPiecePresent(xTile, yTile)) {
 			System.out.println("Piece present at clicked location");
