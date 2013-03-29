@@ -194,11 +194,26 @@ public class GameManager
 		return validMoves;		
 	}	
 	
-	//Moves game piece (does not enforce effects of move)
+	public boolean isValidMove(GamePiece piece, Point movePoint)
+	{
+		if(piece == null || movePoint == null)
+			return false;
+		
+		ArrayList<Point> validMoves = getValidMoves(piece);
+		for(Point move : validMoves)
+		{
+			if(move.equals(movePoint))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	//Moves game piece (enforces move validity)
 	//Returns false if move is unsuccessful for any reason
 	public boolean movePiece(GamePiece piece, Point movePoint)
 	{
-		if(piece == null)
+		if(piece == null || movePoint == null)
 			return false;
 		
 		return board.movePiece(piece.getPoint(), movePoint);

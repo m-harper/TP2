@@ -50,7 +50,7 @@ public class GameBoard
 	}
 	
 	//Attempts to move piece at startPoint to endPoint
-	//Returns false and does nothing if move is invalid
+	//Returns false and does nothing if move is impossible
 	public boolean movePiece(Point startPoint, Point endPoint)
 	{
 		if(!testMovePiece(startPoint, endPoint))
