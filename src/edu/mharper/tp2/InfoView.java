@@ -32,7 +32,7 @@ public class InfoView extends JPanel implements ActionListener {
 		black = View.gameView.gameManager.countBlack();
 		
 		endTurn = new JButton("End turn");
-		endTurn.setPreferredSize(new Dimension(Main.windowHeight / 5, 25));
+		//endTurn.setPreferredSize(new Dimension(Main.windowHeight / 5, 25));
 		
 		setPreferredSize(new Dimension(Main.windowWidth, Main.displayInfoSize));
 		
