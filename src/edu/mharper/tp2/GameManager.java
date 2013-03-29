@@ -11,15 +11,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-//Responsible for enforcing the rules of the game
+//Responsible for computing and enforcing the game logic
 public class GameManager
 {
 	private GameBoard board;
-	public int turnsLeft = Main.maxTurns;
+	private int turnsLeft = Main.maxTurns;
+	private int currentPlayer;
 	
 	public GameManager()
 	{
 		board = new GameBoard();
+		currentPlayer = GamePiece.FIRST_PLAYER;
 	}
 	
 	public void genBoard() {
@@ -36,6 +38,16 @@ public class GameManager
 	public GameBoard getBoard()
 	{
 		return board;
+	}
+	
+	public int getTurnsLeft()
+	{
+		return turnsLeft;
+	}
+	
+	public Color getCurrentPlayer()
+	{
+		return GamePiece.POSSIBLE_COLORS[currentPlayer];
 	}
 	
 	public int countWhite() {
@@ -209,7 +221,7 @@ public class GameManager
 		return false;
 	}
 	
-	//Moves game piece (enforces move validity)
+	//Moves game piece (assumed move is valid)
 	//Returns false if move is unsuccessful for any reason
 	public boolean movePiece(GamePiece piece, Point movePoint)
 	{
@@ -319,5 +331,14 @@ public class GameManager
 			takeY -= deltaY;
 			takePoint = new Point(takeX, takeY);
 		}
+	}
+	
+	public void endTurn()
+	{
+		turnsLeft--;
+		if(currentPlayer == GamePiece.FIRST_PLAYER)
+			currentPlayer = GamePiece.SECOND_PLAYER;
+		else
+			currentPlayer = GamePiece.FIRST_PLAYER;
 	}
 }

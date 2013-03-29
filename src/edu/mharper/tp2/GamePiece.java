@@ -10,20 +10,25 @@ public class GamePiece
 		Red
 	}*/
 	
+	public static final int FIRST_PLAYER = 1;
+	public static final int SECOND_PLAYER = 0;
+	public static final Color[] POSSIBLE_COLORS = {Color.black, Color.white};
 	private Color color;
 	private int row;
 	private int col;
 	
 	public GamePiece(int whichColor, int startRow, int startCol)
 	{
-		switch (whichColor) {
-		case 0:
-			color = Color.black;
-			break;
-		default:
-			color = Color.white;
-			break;
-		}
+		//switch (whichColor) {
+		//case 0:
+			//color = Color.black;
+			//break;
+		//default:
+			//color = Color.white;
+			//break;
+		//}
+		
+		color = POSSIBLE_COLORS[whichColor];
 		row = startRow;
 		col = startCol;
 	}

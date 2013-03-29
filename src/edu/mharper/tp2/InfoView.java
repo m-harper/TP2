@@ -85,7 +85,7 @@ public class InfoView extends JPanel implements ActionListener {
 	}
 	
 	public void updateTurns() {
-		turnsLeft.setText("Turns remaining: " + View.gameView.gameManager.turnsLeft);
+		turnsLeft.setText("Turns remaining: " + View.gameView.gameManager.getTurnsLeft());
 	}
 
 	@Override

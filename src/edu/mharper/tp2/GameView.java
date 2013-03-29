@@ -196,15 +196,23 @@ public class GameView extends Canvas implements MouseListener {
 		
 		tileSelection = null;
 		
-		// Highlight the piece if there is one
+		// Highlight the piece if there is one selected
 		if (isPiecePresent(xTile, yTile)) {
 			System.out.println("Piece present at clicked location");
 			int xCoord = xTile * Main.tileSize + Main.pieceSize / 2;
 			int yCoord = yTile * Main.tileSize + Main.pieceSize / 2;
-			pieceSelection = new Point(xCoord, yCoord);
+			
+			int pieceX = coordToTile(xCoord);
+			int pieceY = coordToTile(yCoord);
+			Point piecePoint = new Point(pieceX, pieceY);
+			GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
+			
+			if(selectedPiece.getColor().equals(gameManager.getCurrentPlayer()))
+				pieceSelection = new Point(xCoord, yCoord);
 			//repaint();
 		}
 		else {
+			//If piece already selected and empty tile selected after, make a move
 			if(pieceSelection != null) {
 				int pieceX = coordToTile(pieceSelection.getX());
 				int pieceY = coordToTile(pieceSelection.getY());
@@ -224,14 +232,14 @@ public class GameView extends Canvas implements MouseListener {
 						gameManager.withdrawCapturePieces(selectedPiece, movePoint);
 					
 					gameManager.movePiece(selectedPiece, movePoint);
-					gameManager.turnsLeft--;
+					gameManager.endTurn();
 					// Reset timer
 					View.infoView.resetTime();
 					View.infoView.updateColors();
 					View.infoView.updateTurns();
 				}
 				
-				if (gameManager.turnsLeft < 1) {
+				if (gameManager.getTurnsLeft() < 1) {
 					View.gameOver();
 				}
 				
