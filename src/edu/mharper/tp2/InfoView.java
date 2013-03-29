@@ -55,6 +55,8 @@ public class InfoView extends JPanel implements ActionListener {
 				}
 				else {
 					resetTime();
+					if (Main.defaultTime != 0)
+						View.gameOver();
 				}
 			}
 		});
