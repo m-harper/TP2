@@ -219,7 +219,8 @@ public class GameBoard
 		
 		for (int i = 0; i < Main.verticalSpaces; i++) {
 			for (int j = 0; j < Main.horizontalSpaces; j++) {
-				pieces.add(board[i][j]);
+				//if(board[i][j] != null)
+					pieces.add(board[i][j]);
 			}
 		}
 		
@@ -240,7 +241,7 @@ public class GameBoard
 	}
 	
 	public ArrayList<Point> getPossibleMoves(GamePiece piece) {
-		return new ArrayList<Point>();
+		return getPossibleMoves(piece.getPoint());
 	}
 		
 	private boolean canMoveDiagonal(Point point)

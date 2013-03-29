@@ -147,27 +147,41 @@ public class GameManager
 	
 	//Returns all valid moves by a piece at Point point
 	//Will enforce capturing/paika move preference
-	public ArrayList<Point> getValidMoves(GamePiece piece)
+	public ArrayList<Point> getValidMoves(GamePiece movePiece)
 	{
-		ArrayList<Point> validMoves = board.getPossibleMoves(piece.getPoint());
+		ArrayList<Point> validMoves = board.getPossibleMoves(movePiece.getPoint());
 		
-		//Check for capturing moves; if so, remove paika moves
+		//Check if any other piece of same color can capture
+		//If so, remove all paika moves
 		boolean capturePossible = false;
-		
-		for(Point movePoint : validMoves)
+
+		ArrayList<GamePiece> checkPieces = board.getPiecesList();
+		for(GamePiece checkPiece : checkPieces)
 		{
-			if(isAnyCaptureMove(piece, movePoint))
+			if(checkPiece == null)
+				continue;
+			if(checkPiece.getColor() != movePiece.getColor())
+				continue;
+			
+			ArrayList<Point> checkMoves = board.getPossibleMoves(checkPiece);
+			for(Point move : checkMoves)
 			{
-				capturePossible = true;
-				break;
+				if(isAnyCaptureMove(checkPiece, move))
+				{
+					capturePossible = true;
+					break;
+				}
 			}
+				
+			if(capturePossible)
+				break;
 		}
 		
 		if(capturePossible)
 		{
 			for(int i = 0; i < validMoves.size(); i++)
 			{
-				if(isPaikaMove(piece, validMoves.get(i)))
+				if(isPaikaMove(movePiece, validMoves.get(i)))
 				{
 					validMoves.remove(i);
 					i--;
