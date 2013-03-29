@@ -220,6 +220,9 @@ public class GameView extends Canvas implements MouseListener {
 				
 				gameManager.movePiece(selectedPiece, movePoint);
 				gameManager.turnsLeft--;
+				if (gameManager.turnsLeft < 1) {
+					View.gameOver();
+				}
 				
 				// Reset timer
 				View.infoView.resetTime();

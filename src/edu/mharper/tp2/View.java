@@ -190,4 +190,9 @@ public class View implements ActionListener {
 			showRules();
 		}
 	}
+	
+	public static void gameOver() {
+		frame.setVisible(false);
+		GameOverScreen gs = new GameOverScreen();
+	}
 }
