@@ -25,7 +25,8 @@ public class Main {
 			System.out.println("Started as client");
 			break;
 		}
-		View view = new View();
+		IntroSettings settings = new IntroSettings();
+		//View view = new View();
 		//view.updatePieces(gb.getPieces());
 	}
 
