@@ -4,12 +4,6 @@ import java.awt.Color;
 
 public class GamePiece
 {
-	/*public enum Color
-	{
-		Black,
-		Red
-	}*/
-	
 	public static final int FIRST_PLAYER = 1;
 	public static final int SECOND_PLAYER = 0;
 	public static final Color[] POSSIBLE_COLORS = {Color.black, Color.white};
