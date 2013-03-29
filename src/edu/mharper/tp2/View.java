@@ -101,7 +101,7 @@ public class View implements ActionListener {
 		// Init game menu
 		gameMenuItems = new ArrayList<JMenuItem>();
 		gameMenuItems.add(new JMenuItem("End turn"));
-		gameMenuItems.add(new JMenuItem("Settings"));
+		//gameMenuItems.add(new JMenuItem("Settings"));
 		for (JMenuItem item : gameMenuItems) {
 			item.addActionListener(this);
 			controlsMenu.add(item);

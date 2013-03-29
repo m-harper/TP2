@@ -378,20 +378,27 @@ public class Settings extends javax.swing.JFrame implements ActionListener {
         int cols = Integer.parseInt(jTextField2.getText());
         int time = Integer.parseInt(jTextField4.getText());
         int port = Integer.parseInt(jTextField1.getText());
-        
-        System.out.println("In action");
+        boolean mode = jCheckBox1.isSelected();
         
         // Check validity of board size
-        if (rows % 2 == 0 || cols % 2 == 0) {
-            JOptionPane.showMessageDialog(null, "Error: board size must be odd");
+        if (rows % 2 == 0 || cols % 2 == 0 || rows > 13 || cols > 13) {
+            JOptionPane.showMessageDialog(null, "Error: board size must be odd and no larger than 13");
             return;
         }
         
-	Main.horizontalSpaces = cols;
-	Main.verticalSpaces = rows;
-	Main.windowHeight = Main.verticalSpaces * Main.tileSize;  
-	Main.windowWidth = Main.horizontalSpaces * Main.tileSize; 
-	Main.defaultTime = time;
+        // Scale to save smaller screens
+        if (rows > 9 || cols > 9) {
+        	Main.tileSize = 50;
+        	Main.pieceSize = Main.tileSize / 2;
+        }
+        
+		Main.horizontalSpaces = cols;
+		Main.verticalSpaces = rows;
+		Main.windowHeight = Main.verticalSpaces * Main.tileSize;  
+		Main.windowWidth = Main.horizontalSpaces * Main.tileSize; 
+		Main.defaultTime = time;
+		Main.port = port;
+		Main.runAsServer = mode;
         
         View view = new View();
         setVisible(false);

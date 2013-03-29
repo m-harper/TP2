@@ -13,6 +13,8 @@ public class Main {
 	public static int windowHeight = Main.verticalSpaces * Main.tileSize;  
 	public static int windowWidth = Main.horizontalSpaces * Main.tileSize; 
 	public static int defaultTime = 5000;
+	public static int port = 1337;
+	public static boolean runAsServer = false;
 	
 	public static void main(String[] args) {
 		Settings view = new Settings();
