@@ -399,6 +399,7 @@ public class Settings extends javax.swing.JFrame implements ActionListener {
 		Main.defaultTime = time;
 		Main.port = port;
 		Main.runAsServer = mode;
+		Main.maxTurns = 10 * Main.verticalSpaces;
         
         View view = new View();
         setVisible(false);

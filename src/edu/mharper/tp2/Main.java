@@ -15,6 +15,7 @@ public class Main {
 	public static int defaultTime = 5000;
 	public static int port = 1337;
 	public static boolean runAsServer = false;
+	public static int maxTurns = 10 * verticalSpaces;
 	
 	public static void main(String[] args) {
 		Settings view = new Settings();

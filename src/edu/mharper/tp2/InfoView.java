@@ -20,6 +20,7 @@ public class InfoView extends JPanel implements ActionListener {
 	JPanel remainingPanel;
 	JLabel whiteRemaining;
 	JLabel blackRemaining;
+	JLabel turnsLeft;
 	JButton endTurn;
 	
 	Timer timer;
@@ -30,6 +31,8 @@ public class InfoView extends JPanel implements ActionListener {
 	public InfoView() {
 		white = View.gameView.gameManager.countWhite();
 		black = View.gameView.gameManager.countBlack();
+		turnsLeft = new JLabel("Turns remaining: " + Main.maxTurns, JLabel.CENTER);
+		turnsLeft.setPreferredSize(new Dimension(Main.windowWidth, 25));
 		
 		endTurn = new JButton("End turn");
 		//endTurn.setPreferredSize(new Dimension(Main.windowHeight / 5, 25));
@@ -41,7 +44,7 @@ public class InfoView extends JPanel implements ActionListener {
 		whiteRemaining = new JLabel("White remaining: " + white, JLabel.CENTER);
 		blackRemaining = new JLabel("Black remaining: " + black, JLabel.CENTER);
 		remainingPanel = new JPanel(new FlowLayout());
-		remainingPanel.setPreferredSize(new Dimension(Main.windowWidth, 50));
+		remainingPanel.setPreferredSize(new Dimension(Main.windowWidth, 25));
 		
 		time = Main.defaultTime;
 		timer = new Timer(1000, new ActionListener() {
@@ -62,6 +65,7 @@ public class InfoView extends JPanel implements ActionListener {
 		remainingPanel.add(blackRemaining);
 		add(timeRemaining, BorderLayout.NORTH);
 		add(remainingPanel, BorderLayout.SOUTH);
+		add(turnsLeft);
 		add(endTurn);
 	}
 	
@@ -76,6 +80,10 @@ public class InfoView extends JPanel implements ActionListener {
 		
 		whiteRemaining.setText("White remaining: " + white);
 		blackRemaining.setText("Black remaining: " + black);
+	}
+	
+	public void updateTurns() {
+		turnsLeft.setText("Turns remaining: " + View.gameView.gameManager.turnsLeft);
 	}
 
 	@Override

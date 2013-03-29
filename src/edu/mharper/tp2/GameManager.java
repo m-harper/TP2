@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class GameManager
 {
 	private GameBoard board;
+	public int turnsLeft = Main.maxTurns;
 	
 	public GameManager()
 	{

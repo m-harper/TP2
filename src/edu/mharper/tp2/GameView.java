@@ -219,10 +219,12 @@ public class GameView extends Canvas implements MouseListener {
 					gameManager.withdrawCapturePieces(selectedPiece, movePoint);
 				
 				gameManager.movePiece(selectedPiece, movePoint);
+				gameManager.turnsLeft--;
 				
 				// Reset timer
 				View.infoView.resetTime();
 				View.infoView.updateColors();
+				View.infoView.updateTurns();
 				
 				pieceSelection = null;
 			}
