@@ -27,7 +27,8 @@ public class GameView extends Canvas implements MouseListener {
 	}
 	
 	public void newGame() {
-		gameManager.startGame();
+		gameManager.genBoard();
+		repaint();
 	}
 	
 	public void saveGame() {

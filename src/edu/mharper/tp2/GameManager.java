@@ -24,7 +24,8 @@ public class GameManager
 	
 	public void genBoard() {
 		board = new GameBoard();
-		View.frame.pack();
+		//View.frame.pack();
+		turnsLeft = Main.maxTurns;
 		startGame();
 	}
 	public void startGame()
