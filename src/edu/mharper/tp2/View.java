@@ -193,6 +193,7 @@ public class View implements ActionListener {
 	
 	public static void gameOver() {
 		frame.setVisible(false);
+		infoView.timer.stop();
 		GameOverScreen gs = new GameOverScreen();
 	}
 }
