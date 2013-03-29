@@ -381,8 +381,8 @@ public class Settings extends javax.swing.JFrame implements ActionListener {
         boolean mode = jCheckBox1.isSelected();
         
         // Check validity of board size
-        if (rows % 2 == 0 || cols % 2 == 0 || rows > 13 || cols > 13) {
-            JOptionPane.showMessageDialog(null, "Error: board size must be odd and no larger than 13");
+        if (rows % 2 == 0 || cols % 2 == 0 || rows > 13 || cols > 13 || rows < 3 || cols < 3) {
+            JOptionPane.showMessageDialog(null, "Error: board size must an odd number from 3 to 13");
             return;
         }
         
