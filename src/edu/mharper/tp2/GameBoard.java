@@ -27,6 +27,7 @@ public class GameBoard
 		
 		int middleRow = numRows / 2;
 		int middleCol = numCols / 2;
+		int middleColor = 0;
 				
 		for(int r = 0; r < numRows; r++)
 		{
@@ -40,10 +41,12 @@ public class GameBoard
 				{
 					if(c == middleCol)
 						continue;
-					else if(c % 2 == 0)
-						board[r][c] = new GamePiece(0, r, c);
-					else
-						board[r][c] = new GamePiece(1, r, c);
+					//else if(c % 2 == 0)
+						//board[r][c] = new GamePiece(0, r, c);
+					//else
+						//board[r][c] = new GamePiece(1, r, c);
+					board[r][c] = new GamePiece(middleColor, r, c);
+					middleColor ^= 1;
 				}
 			}
 		}
