@@ -16,7 +16,7 @@ public class GameManager
 {
 	private GameBoard board;
 	private int turnsLeft = Main.maxTurns;
-	private int currentPlayer;
+	public int currentPlayer;
 	
 	public GameManager()
 	{

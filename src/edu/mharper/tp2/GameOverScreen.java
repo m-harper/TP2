@@ -18,9 +18,40 @@ public class GameOverScreen extends javax.swing.JFrame {
      */
     public GameOverScreen() {
         initComponents();
+        setGameState();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    
+    public void setGameState() {
+    	int whiteLeft = View.infoView.white;
+    	int blackLeft = View.infoView.black;
+    	int turns = View.gameView.gameManager.getTurnsLeft();
+    	
+    	jLabel2.setText("White had " + whiteLeft + " pieces remaining");
+    	jLabel3.setText("Black had " + blackLeft+ " pieces remaining");
+    	
+    	if (turns == 0) {
+    		jLabel1.setText("It's a tie!");
+    	}
+    	else if (whiteLeft == 0) {
+    		jLabel1.setText("Black won!");
+    	}
+    	else if (blackLeft == 0) {
+    		jLabel1.setText("White won!");
+    	}
+    	else {
+    		// Time ran out
+    		switch (View.gameView.gameManager.currentPlayer) {
+    		case 0:
+    			jLabel1.setText("Black ran out of time, white wins!");
+    			break;
+    		case 1:
+    			jLabel1.setText("White ran out of time, black wins!");
+    			break;
+    		}
+    	}
+	}
 
     /**
      * This method is called from within the constructor to initialize the form.
