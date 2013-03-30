@@ -206,12 +206,82 @@ public class GameManager
 		return validMoves;		
 	}	
 	
+	//Gets valid moves, assuming piece is performing a chain capture
+	public ArrayList<Point> getValidChainMoves(GamePiece movePiece, ArrayList<Point> prevMoves)
+	{
+		if(prevMoves.isEmpty())
+			return getValidMoves(movePiece);
+		
+		//Assumed that last move added in prevMoves is latest move
+		Point movePoint = movePiece.getPoint();
+		int deltaX = movePoint.getX() - prevMoves.get(prevMoves.size() - 1).getX();
+		int deltaY = movePoint.getY() - prevMoves.get(prevMoves.size() - 1).getY();
+		Point sameDirectionPoint = new Point(movePoint.getX() + deltaX, movePoint.getY() + deltaY);
+					
+		ArrayList<Point> validMoves = getValidMoves(movePiece);
+		for(int i = 0; i < validMoves.size(); i++)
+		{
+			//Eliminate move if it is a paika move
+			if(isPaikaMove(movePiece, validMoves.get(i)))
+			{
+				validMoves.remove(i);
+				i--;
+				continue;
+			}
+			
+			//Eliminate move if it is in the same direction as last move
+			if(board.isValidPoint(sameDirectionPoint) && validMoves.get(i).equals(sameDirectionPoint))
+			{
+				validMoves.remove(i);
+				i--;
+				continue;
+			}
+			
+			boolean moveRemoved = false;
+			
+			//Eliminate point if it has already been visited in chain
+			for(Point prevMove : prevMoves)
+			{
+				if(validMoves.get(i).equals(prevMove))
+				{
+					validMoves.remove(i);
+					i--;
+					moveRemoved = true;
+					break;
+				}
+			}
+			if(moveRemoved)
+				continue;
+			
+		}
+		
+		return validMoves;
+	}
+	
 	public boolean isValidMove(GamePiece piece, Point movePoint)
 	{
 		if(piece == null || movePoint == null)
 			return false;
 		
 		ArrayList<Point> validMoves = getValidMoves(piece);
+		for(Point move : validMoves)
+		{
+			if(move.equals(movePoint))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isValidChainMove(GamePiece piece, Point movePoint, ArrayList<Point> prevVisited)
+	{
+		if(piece == null || movePoint == null || prevVisited == null)
+			return false;
+		
+		if(prevVisited.isEmpty())
+			return isValidMove(piece, movePoint);
+		
+		ArrayList<Point> validMoves = getValidChainMoves(piece, prevVisited);
 		for(Point move : validMoves)
 		{
 			if(move.equals(movePoint))

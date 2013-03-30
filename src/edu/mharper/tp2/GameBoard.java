@@ -121,28 +121,6 @@ public class GameBoard
 		return validMoves;		
 	}
 	
-	public ArrayList<Point> getValidChainMoves(Point point, ArrayList<Point> prevMoves)
-	{
-		//Get initially valid moves
-		ArrayList<Point> validMoves = getPossibleMoves(point);
-		
-		//Remove moves to previously visited points
-		for(int i = 0; i < validMoves.size(); i++)
-		{
-			for(Point prevMove: prevMoves)
-			{
-				if(validMoves.get(i) == prevMove)
-				{
-					validMoves.remove(i);
-					i--;
-					break;
-				}
-			}
-		}
-		
-		return validMoves;
-	}
-	
 	//Given a point with a piece, determines which moves this piece could go to
 	//Returns null if there is no piece
 	public ArrayList<Point> getPossibleMoves(Point piecePoint)
@@ -173,7 +151,6 @@ public class GameBoard
 		
 		return validMoves;
 	}
-	
 	
 	//Returns true if point contains a piece, false otherwise
 	public boolean hasPiece(Point point)

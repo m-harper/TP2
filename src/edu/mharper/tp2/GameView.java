@@ -12,19 +12,21 @@ import java.util.ArrayList;
 
 public class GameView extends Canvas implements MouseListener {
 	
-	public Point pieceSelection;
+	public Point prevSelection;
 	public Point advanceCaptureChoice; //For advance/withdraw capture choice
 	public Point withdrawCaptureChoice; //For advance/withdraw capture choice
 	public Point captureMovePoint; //For advance/withdraw capture choice
+	public ArrayList<Point> prevMoves; //For chain captures
 	public Point tileSelection;
 	public static GameManager gameManager;
 	
 	public GameView() {
 		setPreferredSize(new Dimension(Main.windowWidth, Main.windowHeight));
 		
-		pieceSelection = null;
+		prevSelection = null;
 		advanceCaptureChoice = null;
 		withdrawCaptureChoice = null;
+		prevMoves = new ArrayList<Point>();
 		gameManager = new GameManager();
 		
 		addMouseListener(this);
@@ -51,47 +53,79 @@ public class GameView extends Canvas implements MouseListener {
 		drawTileSelection(g);
 		drawPieces(g);
 		drawSelection(g);
-		drawValidMoves(g);
+		
+		//If player has to choose moves, display these choices
+		//If there is a chain, display possible chain moves
+		//Else, draw moves as normal			
+		if(advanceCaptureChoice != null && withdrawCaptureChoice != null)
+			drawCaptureChoices(g);
+		else if(!prevMoves.isEmpty())
+			drawValidChainMoves(g);
+		else
+			drawValidMoves(g);
 	}
 	
 	private void drawValidMoves(Graphics g) {
-		if(pieceSelection == null)
+		if(prevSelection == null)
 			return;
 		
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.green);
+		g2.setStroke(new BasicStroke(5));
 		
-		int x = pieceSelection.getX() + Main.pieceSize / 2; //* Main.tileSize + Main.tileSize / 2;
-		int y = pieceSelection.getY() + Main.pieceSize / 2; //* Main.tileSize + Main.tileSize / 2;
+		int x = prevSelection.getX() + Main.pieceSize / 2; //* Main.tileSize + Main.tileSize / 2;
+		int y = prevSelection.getY() + Main.pieceSize / 2; //* Main.tileSize + Main.tileSize / 2;
 		
 		//Point on the board (in units of tiles)
-		int pieceX = coordToTile(pieceSelection.getX());
-		int pieceY = coordToTile(pieceSelection.getY());
+		int pieceX = coordToTile(prevSelection.getX());
+		int pieceY = coordToTile(prevSelection.getY());
 		Point piecePoint = new Point(pieceX, pieceY);
+		GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
 			
-		if (advanceCaptureChoice == null && withdrawCaptureChoice == null) {
-			g2.setColor(Color.green);
-			g2.setStroke(new BasicStroke(5));
-			
-			ArrayList<Point> validMoves = gameManager.getValidMoves(gameManager.getBoard().getPiece(piecePoint));
-			for (int i = 0; i < validMoves.size(); i++) {
-				// Draw point from pieceSelection to its valid moves
-				g2.drawLine(x, y, validMoves.get(i).getX() * Main.tileSize + Main.tileSize / 2, validMoves.get(i).getY() * Main.tileSize + Main.tileSize / 2);
-			}
+		ArrayList<Point> validMoves = gameManager.getValidMoves(selectedPiece);
+		for (int i = 0; i < validMoves.size(); i++) {
+			// Draw point from prevSelection to its valid moves
+			g2.drawLine(x, y, validMoves.get(i).getX() * Main.tileSize + Main.tileSize / 2, validMoves.get(i).getY() * Main.tileSize + Main.tileSize / 2);
 		}
-		//If player has to choose moves, display these choices
-		else
-		{
-			g2.setColor(Color.magenta);
+	}
+	
+	private void drawCaptureChoices(Graphics g)
+	{
+		Graphics2D g2 = (Graphics2D) g;
+		
+		g2.setColor(Color.magenta);
 			
-			//Draw circles showing choices
-			int advanceX = advanceCaptureChoice.getX() * Main.tileSize + Main.pieceSize / 2;
-			int advanceY = advanceCaptureChoice.getY() * Main.tileSize + Main.pieceSize / 2;
-			
-			int withdrawX = withdrawCaptureChoice.getX() * Main.tileSize + Main.pieceSize / 2;
-			int withdrawY = withdrawCaptureChoice.getY() * Main.tileSize + Main.pieceSize / 2;
+		//Draw circles showing choices
+		int advanceX = advanceCaptureChoice.getX() * Main.tileSize + Main.pieceSize / 2;
+		int advanceY = advanceCaptureChoice.getY() * Main.tileSize + Main.pieceSize / 2;
+	
+		int withdrawX = withdrawCaptureChoice.getX() * Main.tileSize + Main.pieceSize / 2;
+		int withdrawY = withdrawCaptureChoice.getY() * Main.tileSize + Main.pieceSize / 2;
 				
-			g2.fillOval(advanceX, advanceY, Main.pieceSize, Main.pieceSize);
-			g2.fillOval(withdrawX, withdrawY, Main.pieceSize, Main.pieceSize);
+		g2.fillOval(advanceX, advanceY, Main.pieceSize, Main.pieceSize);
+		g2.fillOval(withdrawX, withdrawY, Main.pieceSize, Main.pieceSize);
+	}
+	
+	private void drawValidChainMoves(Graphics g)
+	{
+		Graphics2D g2 = (Graphics2D) g;
+		
+		g2.setColor(Color.red);
+			
+		//Point on the board (in units of tiles)
+		int pieceX = coordToTile(prevSelection.getX());
+		int pieceY = coordToTile(prevSelection.getY());
+		Point piecePoint = new Point(pieceX, pieceY);
+		GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
+		
+		ArrayList<Point> validChainMoves = gameManager.getValidChainMoves(selectedPiece, prevMoves);
+		for(Point move : validChainMoves)
+		{
+			int drawX = (move.getX() * Main.tileSize) + (int)(Main.tileSize * 0.4);
+			int drawY = (move.getY() * Main.tileSize) + (int)(Main.tileSize * 0.4);
+			int drawW = (int)(Main.tileSize * 0.2);
+			int drawH = (int)(Main.tileSize * 0.2);
+			g2.fillOval(drawX, drawY, drawW, drawH);
 		}
 	}
 	
@@ -176,11 +210,14 @@ public class GameView extends Canvas implements MouseListener {
 	}
 	
 	private void drawSelection(Graphics g) {
+		if(!prevMoves.isEmpty())
+			return;
+		
 		g.setColor(Color.green);
-		if (pieceSelection != null) {
-			g.fillOval(pieceSelection.getX(), pieceSelection.getY(), Main.pieceSize, Main.pieceSize);
+		if (prevSelection != null) {
+			g.fillOval(prevSelection.getX(), prevSelection.getY(), Main.pieceSize, Main.pieceSize);
 		}
-		//pieceSelection = null;
+		//prevSelection = null;
 	}
 	
 	private void drawTileSelection(Graphics g) {
@@ -220,59 +257,92 @@ public class GameView extends Canvas implements MouseListener {
 		
 		tileSelection = null;
 		
-		
-		// Highlight the piece if there is one selected
+		// A piece has been selected
 		if (isPiecePresent(xTile, yTile)) {
-			System.out.println("Piece present at clicked location");
+			//System.out.println("Piece present at clicked location");
 			int xCoord = xTile * Main.tileSize + Main.pieceSize / 2;
 			int yCoord = yTile * Main.tileSize + Main.pieceSize / 2;
 			
-			int pieceX = coordToTile(xCoord);
-			int pieceY = coordToTile(yCoord);
-			Point piecePoint = new Point(pieceX, pieceY);
+			//int pieceX = coordToTile(xCoord);
+			//int pieceY = coordToTile(yCoord);
+			Point piecePoint = new Point(xTile, yTile);
 			
-			// Unless player is choosing piece to capture in an advance/withdraw capture
+			// Check if player is choosing piece to capture in an advance/withdraw capture
 			if (advanceCaptureChoice != null && withdrawCaptureChoice != null)
 			{
-				int moveX = coordToTile(pieceSelection.getX());
-				int moveY = coordToTile(pieceSelection.getY());
-				GamePiece movingPiece = gameManager.getBoard().getPiece(new Point(moveX, moveY));
+				int prevX = coordToTile(prevSelection.getX());
+				int prevY = coordToTile(prevSelection.getY());
+				Point prevPoint = new Point(prevX, prevY);
+				GamePiece movingPiece = gameManager.getBoard().getPiece(prevPoint);
 				
+				//Make sure piece player chose is a viable piece to capture
 				if(advanceCaptureChoice.equals(piecePoint))
+				{
 					gameManager.advanceCapturePieces(movingPiece, captureMovePoint);
-				else
+				}
+				else if(withdrawCaptureChoice.equals(piecePoint))
+				{
 					gameManager.withdrawCapturePieces(movingPiece, captureMovePoint);
+				}
+				else
+				{
+					//Player did not choose either of the pieces that could be captured
+					advanceCaptureChoice = null;
+					withdrawCaptureChoice = null;
+					prevSelection = new Point(x,y);
+					prevMoves.clear();
+					return;
+				}
 				
+				prevMoves.add(prevPoint);
 				gameManager.movePiece(movingPiece, captureMovePoint);
-				advanceCaptureChoice = null;
-				withdrawCaptureChoice = null;
-				captureMovePoint = null;
-				pieceSelection = null;
-				endTurnAndUpdate();
+					
+				//Check if chain moves are possible; if so, add to chain
+				if(gameManager.getValidChainMoves(movingPiece, prevMoves).isEmpty())
+				{
+					endTurnAndUpdate();
+					return;
+				}
+				else
+				{
+					advanceCaptureChoice = null;
+					withdrawCaptureChoice = null;
+					Point newPoint = movingPiece.getPoint();
+					prevSelection = new Point(tileToCoord(newPoint.getX()), tileToCoord(newPoint.getY()));
+				}
 			}
 			else
 			{
+				//Highlight piece clicked as selected piece
 				GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
 				
 				if(selectedPiece.getColor().equals(gameManager.getCurrentPlayer()))
-					pieceSelection = new Point(xCoord, yCoord);
-				//repaint();
-				
+					prevSelection = new Point(xCoord, yCoord);
 			}
 		}
 		else {
-			//If piece already selected and empty tile selected after, make a move
-			if(pieceSelection != null) {
-				int pieceX = coordToTile(pieceSelection.getX());
-				int pieceY = coordToTile(pieceSelection.getY());
+			//If piece already selected and empty tile selected after, a move of some kind will be made
+			if(prevSelection != null) {
+				int pieceX = coordToTile(prevSelection.getX());
+				int pieceY = coordToTile(prevSelection.getY());
 				Point piecePoint = new Point(pieceX, pieceY);
 				
 				GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
 				
-				//Move and capture pieces
 				Point movePoint = new Point(xTile, yTile);
 				
-				boolean moveValid = gameManager.isValidMove(selectedPiece, movePoint);
+				boolean moveValid;
+				
+				//Check for a chain move
+				if(!prevMoves.isEmpty())
+				{
+					moveValid = gameManager.isValidChainMove(selectedPiece, movePoint, prevMoves);
+				}
+				else
+				{
+					moveValid = gameManager.isValidMove(selectedPiece, movePoint);
+				}
+				
 				if(moveValid)
 				{
 					//If move could be an advance or withdraw, display the possible options
@@ -295,10 +365,30 @@ public class GameView extends Canvas implements MouseListener {
 							gameManager.advanceCapturePieces(selectedPiece, movePoint);
 						else if(gameManager.isWithdrawCaptureMove(selectedPiece, movePoint))
 							gameManager.withdrawCapturePieces(selectedPiece, movePoint);
+						else
+							//Paika move
+						{
+							gameManager.movePiece(selectedPiece, movePoint);
+							endTurnAndUpdate();
+							return;
+						}
 						
+						prevMoves.add(selectedPiece.getPoint());
 						gameManager.movePiece(selectedPiece, movePoint);
-						pieceSelection = null;
-						endTurnAndUpdate();
+						
+						//Check if chain moves are possible; if so, add to chain
+						if(gameManager.getValidChainMoves(selectedPiece, prevMoves).isEmpty())
+						{
+							//prevSelection = null;
+							endTurnAndUpdate();
+							return;
+						}
+						else
+						{
+							prevSelection = new Point(x,y);
+							advanceCaptureChoice = null;
+							withdrawCaptureChoice = null;
+						}
 					}
 				}
 			}
@@ -316,6 +406,13 @@ public class GameView extends Canvas implements MouseListener {
 	public void endTurnAndUpdate()
 	{
 		gameManager.endTurn();
+		//Clear tracking variables
+		prevSelection = null;
+		prevMoves.clear();
+		advanceCaptureChoice = null;
+		withdrawCaptureChoice = null;
+		captureMovePoint = null;
+		
 		// Reset timer
 		View.infoView.resetTime();
 		View.infoView.updateColors();
@@ -324,6 +421,7 @@ public class GameView extends Canvas implements MouseListener {
 		if (gameManager.getTurnsLeft() < 1) {
 			View.gameOver();
 		}
+		repaint();
 	}
 	
 	boolean isPiecePresent(int x, int y) {
@@ -337,5 +435,9 @@ public class GameView extends Canvas implements MouseListener {
 	
 	int coordToTile(int offset) {
 		return offset / Main.tileSize;
+	}
+	
+	int tileToCoord(int offset) {
+		return offset * Main.tileSize + (Main.tileSize / 2);
 	}
 }
