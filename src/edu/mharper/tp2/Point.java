@@ -20,6 +20,9 @@ public class Point {
 	
 	public boolean equals(Point point)
 	{
+		if(point == null)
+			return false;
+		
 		return(x == point.getX() && y == point.getY());
 	}
 	

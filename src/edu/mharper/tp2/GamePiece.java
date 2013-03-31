@@ -55,4 +55,11 @@ public class GamePiece
 		return new Point(col, row);
 	}
 	
+	public boolean equals(GamePiece piece)
+	{
+		if(piece == null)
+			return false;
+		
+		return(row == piece.getRow() && col == piece.getColumn() && color.equals(piece.getColor()));
+	}
 }

@@ -202,7 +202,12 @@ public class GameView extends Canvas implements MouseListener {
 				
 				int xCoord = Main.tileSize * x + Main.pieceSize / 2;
 				int yCoord = Main.tileSize * y + Main.pieceSize / 2;
-				g.setColor(color);
+				
+				//If piece is sacrificed, display in an different color
+				if(piece.equals(gameManager.getSacrificedPiece()))
+					g.setColor(Color.gray);
+				else
+					g.setColor(color);
 				
 				g.fillOval(xCoord, yCoord, Main.pieceSize, Main.pieceSize);
 			}
@@ -310,6 +315,17 @@ public class GameView extends Canvas implements MouseListener {
 					Point newPoint = movingPiece.getPoint();
 					prevSelection = new Point(tileToCoord(newPoint.getX()), tileToCoord(newPoint.getY()));
 				}
+			}
+			//If same piece selected twice, count as a sacrifice move
+			else if(prevSelection != null &&
+					coordToTile(prevSelection.getX()) == xTile &&
+					coordToTile(prevSelection.getY()) == yTile)
+			{
+				GamePiece selectedPiece = gameManager.getBoard().getPiece(piecePoint);
+				
+				gameManager.sacrificePiece(selectedPiece);
+				endTurnAndUpdate();
+				return;
 			}
 			else
 			{

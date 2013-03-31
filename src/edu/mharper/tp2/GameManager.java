@@ -16,6 +16,7 @@ public class GameManager
 {
 	private GameBoard board;
 	private int turnsLeft = Main.maxTurns;
+	private GamePiece sacrificedPiece;
 	public int currentPlayer;
 	
 	public GameManager()
@@ -27,6 +28,7 @@ public class GameManager
 	public void genBoard() {
 		board = new GameBoard();
 		//View.frame.pack();
+		sacrificedPiece = null;
 		turnsLeft = Main.maxTurns;
 		startGame();
 	}
@@ -43,6 +45,11 @@ public class GameManager
 	public int getTurnsLeft()
 	{
 		return turnsLeft;
+	}
+	
+	public GamePiece getSacrificedPiece()
+	{
+		return sacrificedPiece;
 	}
 	
 	public Color getCurrentPlayer()
@@ -300,6 +307,14 @@ public class GameManager
 		
 		return board.movePiece(piece.getPoint(), movePoint);
 	}
+	//Performs a sacrifice move on a piece
+	public void sacrificePiece(GamePiece piece)
+	{
+		if(sacrificedPiece != null)
+			board.removePiece(sacrificedPiece.getPoint());
+		
+		sacrificedPiece = piece;
+	}
 	
 	public boolean isAdvanceCaptureMove(GamePiece piece, Point movePoint)
 	{
@@ -314,7 +329,8 @@ public class GameManager
 		
 		//Check for a possible advancing capture
 		if(board.isValidPoint(advancePoint) && board.hasPiece(advancePoint) && 
-				board.getPiece(advancePoint).getColor() != piece.getColor())
+				board.getPiece(advancePoint).getColor() != piece.getColor() &&
+				!board.getPiece(advancePoint).equals(sacrificedPiece))
 			return true;
 	
 		return false;		
@@ -333,7 +349,8 @@ public class GameManager
 		
 		//Check for a possible withdrawal capture
 		if(board.isValidPoint(withdrawPoint) && board.hasPiece(withdrawPoint) && 
-				board.getPiece(withdrawPoint).getColor() != piece.getColor())
+				board.getPiece(withdrawPoint).getColor() != piece.getColor() &&
+				!board.getPiece(withdrawPoint).equals(sacrificedPiece))
 			return true;
 		
 		return false;		
@@ -371,7 +388,8 @@ public class GameManager
 		Point takePoint = new Point(takeX, takeY);
 		
 		while(board.isValidPoint(takePoint) && board.hasPiece(takePoint)
-				&& board.getPiece(takePoint).getColor() != piece.getColor())
+				&& board.getPiece(takePoint).getColor() != piece.getColor()
+				&& !board.getPiece(takePoint).equals(sacrificedPiece))
 		{
 			board.removePiece(takePoint);
 			takeX += deltaX;
@@ -394,7 +412,8 @@ public class GameManager
 		Point takePoint = new Point(takeX, takeY);
 		
 		while(board.isValidPoint(takePoint) && board.hasPiece(takePoint)
-				&& board.getPiece(takePoint).getColor() != piece.getColor())
+				&& board.getPiece(takePoint).getColor() != piece.getColor()
+				&& !board.getPiece(takePoint).equals(sacrificedPiece))
 		{
 			board.removePiece(takePoint);
 			takeX -= deltaX;
@@ -410,5 +429,12 @@ public class GameManager
 			currentPlayer = GamePiece.SECOND_PLAYER;
 		else
 			currentPlayer = GamePiece.FIRST_PLAYER;
+		
+		if(sacrificedPiece != null && 
+				GamePiece.POSSIBLE_COLORS[currentPlayer].equals(sacrificedPiece.getColor()))
+		{
+			board.removePiece(sacrificedPiece.getPoint());
+			sacrificedPiece = null;
+		}
 	}
 }
