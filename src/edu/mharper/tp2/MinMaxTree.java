@@ -2,9 +2,23 @@ package edu.mharper.tp2;
 
 public class MinMaxTree {
 	
-	public MinMaxTree() {
+	private MaxNode root;
+	private int height;
+	private final int MAX_VALUE = 100;
+	private final int MIN_VALUE = 0;
+	private final int MEAN_VALUE = (MAX_VALUE + MIN_VALUE) / 2;
+	
+	
+	public MinMaxTree() 
+	{
 		
 	}
+	
+	public void generate(int numMoves)
+	{
+		
+	}
+	
 	/*
 	minimax(player,board)
     if(game over in current board position)
@@ -15,16 +29,5 @@ public class MinMaxTree {
     else (min's turn)
         return minimal score of calling minimax on all the children
 	*/
-	private class Node {
 		
-		private int value;
-		private int depth;
-		private boolean isMin;
-		
-		public Node() {
-			
-		}
-		
-		
-	}
 }
