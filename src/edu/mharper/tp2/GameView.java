@@ -418,7 +418,7 @@ public class GameView extends Canvas implements MouseListener {
 		View.infoView.updateColors();
 		View.infoView.updateTurns();
 		
-		if (gameManager.getTurnsLeft() < 1) {
+		if (gameManager.getTurnsLeft() < 1 || View.infoView.white == 0 || View.infoView.black == 0) {
 			View.gameOver();
 		}
 		repaint();
