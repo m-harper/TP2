@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import javax.swing.RepaintManager;
+
 //Responsible for computing and enforcing the game logic
 public class GameManager
 {
@@ -92,8 +94,8 @@ public class GameManager
 					String colorText = "";
 					if (piece.getColor() == Color.black)
 						colorText = "black";						
-					else if (piece.getColor() == Color.red)
-						colorText = "red";
+					else if (piece.getColor() == Color.white)
+						colorText = "white";
 					
 					fileText += colorText + "\t" + piece.getRow() + "\t" + piece.getColumn() + "\n";
 				}
@@ -126,10 +128,12 @@ public class GameManager
 			while (scan.hasNext()) {
 				pieces.add(stringToPiece(scan.nextLine()));
 			}
+			board.update(pieces);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	private GamePiece stringToPiece(String string) {
@@ -142,7 +146,8 @@ public class GameManager
 		int col = Integer.parseInt(string);
 		
 		int colorInt = 0;
-		if (color.equals("red"))
+		System.out.println(color);
+		if (color.equals("white"))
 			colorInt = 1;
 		
 		return new GamePiece(colorInt, row, col);
