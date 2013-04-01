@@ -167,9 +167,11 @@ public class GameView extends Canvas implements MouseListener {
 		}
 		
 		// Draw diagonals
+		int drawFactor = (Main.horizontalSpaces + Main.verticalSpaces / 2) % 2;
 		for (int i = 0; i < Main.horizontalSpaces; i++) {
 			for (int j = 0; j < Main.verticalSpaces; j++) {
-				if (i % 2 == 0 && j % 2 == 0) {
+				Point testPoint = new Point(i,j);
+				if (gameManager.getBoard().canMoveDiagonal(testPoint)) {
 					// Draw down right
 					if (j != Main.verticalSpaces - 1 && i != Main.horizontalSpaces - 1) {
 						g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
@@ -180,7 +182,7 @@ public class GameView extends Canvas implements MouseListener {
 						g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
 							(i - 1) * Main.tileSize + Main.tileSize / 2, (j + 1) * Main.tileSize + Main.tileSize / 2);
 				}
-				else if (i % 2 != 0 && j % 2 != 0) {
+				else if (gameManager.getBoard().canMoveDiagonal(testPoint)) {
 					g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 
 						(i - 1) * Main.tileSize + Main.tileSize / 2, (j + 1) * Main.tileSize + Main.tileSize / 2);
 					g2.drawLine(i * Main.tileSize + Main.tileSize / 2, j * Main.tileSize + Main.tileSize / 2, 

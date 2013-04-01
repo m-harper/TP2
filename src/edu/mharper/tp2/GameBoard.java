@@ -224,8 +224,9 @@ public class GameBoard
 		return getPossibleMoves(piece.getPoint());
 	}
 		
-	private boolean canMoveDiagonal(Point point)
+	public boolean canMoveDiagonal(Point point)
 	{
-		return (point.getX() + point.getY()) % 2 == 0;
+		int diagonalFactor = ((numRows + numCols) / 2) % 2;
+		return (point.getX() + point.getY()) % 2 != diagonalFactor;
 	}
 }

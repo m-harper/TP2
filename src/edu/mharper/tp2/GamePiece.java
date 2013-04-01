@@ -60,6 +60,8 @@ public class GamePiece
 		if(piece == null)
 			return false;
 		
-		return(row == piece.getRow() && col == piece.getColumn() && color.equals(piece.getColor()));
+		return(row == piece.getRow() && 
+				col == piece.getColumn() && 
+				color.equals(piece.getColor()));
 	}
 }
