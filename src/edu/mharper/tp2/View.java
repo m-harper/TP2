@@ -178,6 +178,7 @@ public class View implements ActionListener {
 				String fileName = file.getAbsolutePath();
 				gameView.loadGame(fileName);
 			}
+			gameView.repaint();
 		}
 		else if (event.getActionCommand().equals("End turn")) {
 			
