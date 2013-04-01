@@ -2,9 +2,13 @@ package edu.mharper.tp2;
 
 public class MaxNode extends Node
 {
-	public MaxNode(int val, int dep)
+	public MaxNode(Move move, int val)
 	{
-		super(val, dep);
+		super(move, val, 0);
+	}
+	public MaxNode(Move move, int val, int dep)
+	{
+		super(move, val, dep);
 	}
 	
 	public boolean isMax()
@@ -17,9 +21,11 @@ public class MaxNode extends Node
 		return false;
 	}
 	
-	public void addChild(int childVal)
+	public Node addChild(Move childMove, int childVal)
 	{
-		children.add(new MinNode(childVal, depth + 1));
+		Node child = new MinNode(childMove, childVal, depth + 1);
+		children.add(child);
+		return child;
 	}
 	
 }

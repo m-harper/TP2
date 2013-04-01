@@ -25,6 +25,16 @@ public class GameManager
 		currentPlayer = GamePiece.FIRST_PLAYER;
 	}
 	
+	public GameManager(GameManager mgr)
+	{
+		board = new GameBoard();
+		board.update(mgr.getBoard().getPiecesList());
+		if(sacrificedPiece != null)
+			sacrificedPiece = new GamePiece(mgr.getSacrificedPiece());
+		turnsLeft = mgr.getTurnsLeft();
+		currentPlayer = mgr.currentPlayer;
+	}
+	
 	public void genBoard() {
 		board = new GameBoard();
 		//View.frame.pack();
@@ -319,6 +329,9 @@ public class GameManager
 	public boolean isAdvanceCaptureMove(GamePiece piece, Point movePoint)
 	{
 		//Assumed that movePoint is adjacent to piece's current position
+		if(piece == null)
+			return false;
+		
 		int x = piece.getColumn();
 		int y = piece.getRow();
 		
@@ -339,6 +352,9 @@ public class GameManager
 	public boolean isWithdrawCaptureMove(GamePiece piece, Point movePoint)
 	{
 		//Assumed that movePoint is adjacent to piece's current position
+		if(piece == null)
+			return false;
+		
 		int x = piece.getColumn();
 		int y = piece.getRow();
 		
@@ -377,6 +393,9 @@ public class GameManager
 	//Removes pieces taken by a valid advancing capture from startPoint to endPoint
 	public void advanceCapturePieces(GamePiece piece, Point movePoint)
 	{
+		if(piece == null)
+			return;
+		
 		Point piecePoint = piece.getPoint();
 		
 		int deltaX = movePoint.getX() - piecePoint.getX();
@@ -401,6 +420,9 @@ public class GameManager
 	//Removes pieces taken by a valid withdrawing capture from startPoint to endPoint
 	public void withdrawCapturePieces(GamePiece piece, Point movePoint)
 	{
+		if(piece == null)
+			return;
+		
 		Point piecePoint = piece.getPoint();
 		
 		int deltaX = movePoint.getX() - piecePoint.getX();
@@ -422,13 +444,19 @@ public class GameManager
 		}
 	}
 	
-	public void endTurn()
+	//Primarily for minimax tree
+	public void switchPlayers()
 	{
-		turnsLeft--;
 		if(currentPlayer == GamePiece.FIRST_PLAYER)
 			currentPlayer = GamePiece.SECOND_PLAYER;
 		else
 			currentPlayer = GamePiece.FIRST_PLAYER;
+	}
+	
+	public void endTurn()
+	{
+		turnsLeft--;
+		switchPlayers();
 		
 		if(sacrificedPiece != null && 
 				GamePiece.POSSIBLE_COLORS[currentPlayer].equals(sacrificedPiece.getColor()))

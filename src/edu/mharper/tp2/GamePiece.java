@@ -27,6 +27,13 @@ public class GamePiece
 		col = startCol;
 	}
 	
+	public GamePiece(GamePiece piece)
+	{
+		color = piece.getColor();
+		row = piece.getRow();
+		col = piece.getColumn();
+	}
+	
 	//Changes piece position
 	//Assumed that the move is valid- validity will be checked by GameBoard
 	public void updatePosition(int newRow, int newCol)

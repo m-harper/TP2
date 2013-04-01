@@ -19,8 +19,12 @@ public class Main {
 	public static int maxTurns = 10 * verticalSpaces;
 	
 	public static void main(String[] args) {
+		AITest test = new AITest();
+		test.testMinMaxTree();
+		
 		Settings view = new Settings();
 		//view.updatePieces(gb.getPieces());
+	
 	}
 
 }
