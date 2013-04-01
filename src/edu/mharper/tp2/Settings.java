@@ -18,6 +18,7 @@ public class Settings extends javax.swing.JFrame {
     public Settings() {
         initComponents();
         setVisible(true);
+        setResizable(false);
     }
 
     /**
