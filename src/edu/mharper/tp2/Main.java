@@ -14,6 +14,8 @@ public class Main {
 	public static int defaultTime = 15000;
 	public static int port = 1337;
 	public static boolean runAsServer = false;
+	public static boolean runAsClient = false;
+	public static boolean enableAI= false;
 	public static int maxTurns = 10 * verticalSpaces;
 	
 	public static void main(String[] args) {
