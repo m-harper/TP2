@@ -61,12 +61,16 @@ public abstract class Node
 			switch(move.type)
 			{
 			case CAPTURE:
-				moveStr = "Cap (" + move.startPoint.getX() + "," + move.startPoint.getY() + ") -> (" +  
-							move.endPoint.getX() + "," + move.endPoint.getY() + ")";
+				moveStr = "Cap (" + move.startPoint.getX() + "," + move.startPoint.getY() + ")";
+				for(Point endPoint : move.endPoints)
+				{
+					moveStr.concat(" -> (" +  endPoint.getX() + "," + endPoint.getY() + ")");
+							
+				}
 			 	break;
 			case PAIKA:
 				moveStr = "Pka (" + move.startPoint.getX() + "," + move.startPoint.getY() + ") -> (" +  
-							move.endPoint.getX() + "," + move.endPoint.getY() + ")";
+							move.endPoints.get(0).getX() + "," + move.endPoints.get(0).getY() + ")";
 			 	break;
 			case END_CHAIN:
 				moveStr = "EndChain";

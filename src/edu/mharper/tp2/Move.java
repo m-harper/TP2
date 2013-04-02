@@ -1,5 +1,6 @@
 package edu.mharper.tp2;
 
+import java.util.ArrayList;
 
 public class Move
 {
@@ -12,15 +13,16 @@ public class Move
 	}
 	
 	public Point startPoint;
-	public Point endPoint;
+	public ArrayList<Point> endPoints;
 	public MoveType type;
 	
-	//For capture and paika moves
+	//For capture, chain capture, and paika moves
 	public Move(MoveType tp, Point start, Point end)
 	{
 		type = tp;
 		startPoint = new Point(start.getX(), start.getY());
-		endPoint = new Point(end.getX(), end.getY());
+		endPoints = new ArrayList<Point>();
+		endPoints.add(end);
 	}
 	
 	//For moves other than capture or paika
@@ -28,7 +30,7 @@ public class Move
 	{
 		type = tp;
 		startPoint = piecePoint;
-		endPoint = null;
+		endPoints = new ArrayList<Point>();
 	}
 	
 }

@@ -116,7 +116,28 @@ public class GameEval {
 				for(Point movePoint : movePoints)
 				{
 					if(manager.isAnyCaptureMove(piece, movePoint))
-						allMoves.add(new Move(MoveType.CAPTURE, piece.getPoint(), movePoint));
+					{
+						//Automatically choose a random chain
+						Move capMove = new Move(MoveType.CAPTURE, piece.getPoint(), movePoint);
+						ArrayList<Point> prevMoves = new ArrayList<Point>();
+						prevMoves.add(movePoint);
+						
+						GameManager testManager = new GameManager(manager);
+						GamePiece testPiece = testManager.getBoard().getPiece(piece.getPoint());
+						ArrayList<Point> chainMoves = testManager.getValidChainMoves(testPiece, prevMoves);
+						
+						while(chainMoves.size() != 0)
+						{
+							int randIndex = (int) (Math.random() * chainMoves.size());
+							Point randMove = chainMoves.get(randIndex);
+							capMove.endPoints.add(randMove);
+							prevMoves.add(testPiece.getPoint());
+							GameEval.makeMove(testManager, new Move(MoveType.CAPTURE, testPiece.getPoint(), randMove));
+							chainMoves = testManager.getValidChainMoves(testPiece, prevMoves);
+						}
+						
+						allMoves.add(capMove);
+					}
 					else
 						allMoves.add(new Move(MoveType.PAIKA, piece.getPoint(), movePoint));
 				}
@@ -142,14 +163,17 @@ public class GameEval {
 		switch(move.type)
 		{
 		case CAPTURE:
-			if(manager.isAdvanceCaptureMove(piece, move.endPoint))
-				manager.advanceCapturePieces(piece, move.endPoint);
-			else
-				manager.withdrawCapturePieces(piece, move.endPoint);
-			manager.movePiece(piece, move.endPoint);
+			for(Point endPoint : move.endPoints)
+			{
+				if(manager.isAdvanceCaptureMove(piece, endPoint))
+					manager.advanceCapturePieces(piece, endPoint);
+				else
+					manager.withdrawCapturePieces(piece, endPoint);
+				manager.movePiece(piece, endPoint);
+			}
 			break;
 		case PAIKA:
-			manager.movePiece(piece, move.endPoint);
+			manager.movePiece(piece, move.endPoints.get(0));
 			break;
 		case END_CHAIN:
 			break;
