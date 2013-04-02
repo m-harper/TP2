@@ -466,6 +466,7 @@ public class GameView extends Canvas implements MouseListener {
 	//Makes an optimal move
 	public void AIMove()
 	{
+		update(getGraphics());
 		Move computerMove = GameEval.getOptimalSecondMove(gameManager, Main.maxAITurns);
 		GameEval.makeMove(gameManager, computerMove);
 	}
