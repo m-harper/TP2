@@ -69,7 +69,7 @@ public class View implements ActionListener {
 		frame = new JFrame(Main.gameTitle);
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(true);
+		frame.setResizable(false);
 		
 		initMenuBar();
 		initGameDisplay();

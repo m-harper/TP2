@@ -21,6 +21,7 @@ public class GameOverScreen extends javax.swing.JFrame {
         setGameState();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Game over");
     }
     
     public void setGameState() {
