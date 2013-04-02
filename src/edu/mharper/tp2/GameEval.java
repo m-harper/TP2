@@ -31,6 +31,58 @@ public class GameEval {
 		return (double)whiteCount / totalPieces;
 	}
 	
+	public static Move getOptimalFirstMove(GameManager manager, int movesAhead)
+	{
+		return getOptimalMove(manager, movesAhead, false);
+	}
+	
+	public static Move getOptimalSecondMove(GameManager manager, int movesAhead)
+	{
+		return getOptimalMove(manager, movesAhead, true);
+	}
+	
+	private static Move getOptimalMove(GameManager manager, int movesAhead, boolean findMin)
+	{
+		MinMaxTree tree = new MinMaxTree();
+		tree.generate(manager, tree.getRoot(), movesAhead);
+		ArrayList<Node> moveNodes = tree.getRoot().getChildren();
+		
+		if(moveNodes.size() == 0)
+			return null;
+			
+		Node optimalNode = moveNodes.get(0);
+		//Find move that will yield the lowest bottom leaf yield
+		for(Node node : moveNodes)
+		{
+			if((findMin && evalNode(node, true) < optimalNode.getValue()) || 
+					(!findMin && evalNode(node, false) > optimalNode.getValue()))
+			{
+				optimalNode = node;
+			}
+		}
+		
+		return optimalNode.getMove();
+	}
+	
+	//Returns min/max of bottom leaves of subtree with root [node]
+	private static int evalNode(Node node, boolean findMin)
+	{
+		ArrayList<Node> children = node.getChildren();
+		if(node.getChildren().size() == 0)
+			return node.value;
+		
+		int optimalVal = children.get(0).value;
+		for(Node child : children)
+		{
+			if((findMin && child.value < optimalVal) || (!findMin && child.value > optimalVal))
+			{
+				optimalVal = child.value;
+			}
+		}
+		
+		return optimalVal;
+	}
+	
 	public static ArrayList<Move> getAllValidMoves(GameManager manager)
 	{
 		GameBoard board = manager.getBoard();

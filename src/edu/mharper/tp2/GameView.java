@@ -439,7 +439,15 @@ public class GameView extends Canvas implements MouseListener {
 		if (gameManager.getTurnsLeft() < 1 || View.infoView.white == 0 || View.infoView.black == 0) {
 			View.gameOver();
 		}
+		
 		repaint();
+	}
+	
+	public void AIMove()
+	{
+		Move computerMove = GameEval.getOptimalSecondMove(gameManager, 4);
+		GameEval.makeMove(gameManager, computerMove);
+		gameManager.endTurn();
 	}
 	
 	boolean isPiecePresent(int x, int y) {

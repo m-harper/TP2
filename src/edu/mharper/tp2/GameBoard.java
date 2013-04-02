@@ -216,7 +216,7 @@ public class GameBoard
 		}
 		for (GamePiece piece : pieces) {
 			if (piece != null)
-				board[piece.getRow()][piece.getColumn()] = piece;
+				board[piece.getRow()][piece.getColumn()] = new GamePiece(piece);
 		}
 	}
 	

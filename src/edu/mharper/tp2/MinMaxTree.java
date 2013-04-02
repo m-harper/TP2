@@ -31,8 +31,8 @@ public class MinMaxTree {
 		for(Move move : allMoves)
 		{
 			GameManager nextManager = new GameManager(manager);
-			nextManager.switchPlayers();
 			GameEval.makeMove(nextManager, move);
+			nextManager.endTurn();
 			Node child = node.addChild(move, getUtility(nextManager.getBoard()));
 			System.out.println("Added child: " + child);
 			generate(nextManager, child, numMoves - 1);
