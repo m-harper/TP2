@@ -5,15 +5,13 @@ import java.util.ArrayList;
 public abstract class Node
 {
 	protected int value;
-	protected int depth;
 	protected Move move;
 	protected ArrayList<Node> children;
+	protected Node parent;
 
-	public Node(Move mv, int v, int d)
+	public Node(Move mv)
 	{
 		move = mv;
-		value = v;
-		depth = d;
 		children = new ArrayList<Node>();
 	}
 	
@@ -27,9 +25,19 @@ public abstract class Node
 		return value;
 	}
 	
-	public int getDepth()
+	public void setValue(int val)
 	{
-		return depth;
+		value = val;
+	}
+	
+	public Node getParent()
+	{
+		return parent;
+	}
+	
+	public void setParent(Node newParent)
+	{
+		parent = newParent;
 	}
 	
 	public ArrayList<Node> getChildren()
@@ -37,7 +45,7 @@ public abstract class Node
 		return children;
 	}
 	
-	public abstract Node addChild(Move childMove, int childVal);
+	public abstract Node addChild(Move childMove);
 	public abstract boolean isMin();
 	public abstract boolean isMax();
 	
@@ -72,7 +80,7 @@ public abstract class Node
 			}
 		}
 		
-		String str = "[" + depth + "]: ([move] " + moveStr + ", [val]" + value + ")";
+		String str = "([move] " + moveStr + ", [val]" + value + ")";
 		return(str);
 	}
 }

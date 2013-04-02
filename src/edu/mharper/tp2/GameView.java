@@ -308,6 +308,11 @@ public class GameView extends Canvas implements MouseListener {
 				if(gameManager.getValidChainMoves(movingPiece, prevMoves).isEmpty())
 				{
 					endTurnAndUpdate();
+					if(Main.enableAI)
+					{
+						AIMove();
+						endTurnAndUpdate();
+					}
 					return;
 				}
 				else
@@ -327,6 +332,11 @@ public class GameView extends Canvas implements MouseListener {
 				
 				gameManager.sacrificePiece(selectedPiece);
 				endTurnAndUpdate();
+				if(Main.enableAI)
+					{
+						AIMove();
+						endTurnAndUpdate();
+					}
 				return;
 			}
 			else
@@ -388,6 +398,11 @@ public class GameView extends Canvas implements MouseListener {
 						{
 							gameManager.movePiece(selectedPiece, movePoint);
 							endTurnAndUpdate();
+							if(Main.enableAI)
+							{
+								AIMove();
+								endTurnAndUpdate();
+							}
 							return;
 						}
 						
@@ -399,6 +414,11 @@ public class GameView extends Canvas implements MouseListener {
 						{
 							//prevSelection = null;
 							endTurnAndUpdate();
+							if(Main.enableAI)
+							{
+								AIMove();
+								endTurnAndUpdate();
+							}
 							return;
 						}
 						else
@@ -443,11 +463,11 @@ public class GameView extends Canvas implements MouseListener {
 		repaint();
 	}
 	
+	//Makes an optimal move
 	public void AIMove()
 	{
-		Move computerMove = GameEval.getOptimalSecondMove(gameManager, 4);
+		Move computerMove = GameEval.getOptimalSecondMove(gameManager, Main.maxAITurns);
 		GameEval.makeMove(gameManager, computerMove);
-		gameManager.endTurn();
 	}
 	
 	boolean isPiecePresent(int x, int y) {

@@ -16,13 +16,14 @@ public class Main {
 	public static boolean runAsServer = false;
 	public static boolean runAsClient = false;
 	public static boolean enableAI= false;
+	public static int maxAITurns = 4;
 	public static int maxTurns = 10 * verticalSpaces;
 	
 	public static void main(String[] args) {
-		AITest test = new AITest();
-		test.testMinMaxTree();
+		//AITest test = new AITest();
 		
 		Settings view = new Settings();
+		
 		//view.updatePieces(gb.getPieces());
 	
 	}

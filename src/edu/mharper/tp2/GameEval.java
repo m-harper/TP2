@@ -25,7 +25,6 @@ public class GameEval {
 					blackCount++;
 			}
 		}
-		
 		int totalPieces = whiteCount + blackCount;
 		
 		return (double)whiteCount / totalPieces;
@@ -54,8 +53,8 @@ public class GameEval {
 		//Find move that will yield the lowest bottom leaf yield
 		for(Node node : moveNodes)
 		{
-			if((findMin && evalNode(node, true) < optimalNode.getValue()) || 
-					(!findMin && evalNode(node, false) > optimalNode.getValue()))
+			if((node.isMin() && evalNode(node) < optimalNode.getValue()) || 
+					(node.isMax() && evalNode(node) > optimalNode.getValue()))
 			{
 				optimalNode = node;
 			}
@@ -64,22 +63,37 @@ public class GameEval {
 		return optimalNode.getMove();
 	}
 	
-	//Returns min/max of bottom leaves of subtree with root [node]
-	private static int evalNode(Node node, boolean findMin)
+	//Recursively returns the min/max value for subtree with root [node]
+	//Uses alpha-beta pruning to optimize evaluation
+	private static int evalNode(Node node)
 	{
 		ArrayList<Node> children = node.getChildren();
 		if(node.getChildren().size() == 0)
 			return node.value;
-		
-		int optimalVal = children.get(0).value;
-		for(Node child : children)
+		if(node.getChildren().size() == 1)
 		{
-			if((findMin && child.value < optimalVal) || (!findMin && child.value > optimalVal))
-			{
-				optimalVal = child.value;
-			}
+			node.setValue(evalNode(node.getChildren().get(0)));
 		}
 		
+		int optimalVal = evalNode(children.get(0));
+		for(int i = 1; i < children.size(); i++)
+		{
+			Node child = children.get(i);
+			int childVal = evalNode(child);
+			
+			if((node.isMin() && optimalVal < childVal) || (node.isMax() && optimalVal > childVal))
+			{
+				//This subtree is useless; prune
+				child.setParent(null);
+				children.remove(i);
+				i--;				
+			}
+			if((node.isMin() && optimalVal > childVal) || (node.isMax() && optimalVal < childVal))
+			{
+				optimalVal = childVal;
+			}
+		}
+		node.setValue(optimalVal);		
 		return optimalVal;
 	}
 	

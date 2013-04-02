@@ -13,7 +13,9 @@ public class MinMaxTree {
 	
 	public MinMaxTree() 
 	{
-		root = new MaxNode(null, MEAN_VALUE, 0);
+		root = new MaxNode(null);
+		root.setValue(MEAN_VALUE);
+		height = 0;
 	}
 	
 	public Node getRoot()
@@ -24,8 +26,12 @@ public class MinMaxTree {
 	//Generates moves based on a starting game state
 	public void generate(GameManager manager, Node node, int numMoves)
 	{
+		//Leaf case: set child with utility value
 		if(numMoves == 0)
+		{
+			node.setValue(getUtility(manager.getBoard()));
 			return;
+		}
 		
 		ArrayList<Move> allMoves = GameEval.getAllValidMoves(manager);
 		for(Move move : allMoves)
@@ -33,8 +39,8 @@ public class MinMaxTree {
 			GameManager nextManager = new GameManager(manager);
 			GameEval.makeMove(nextManager, move);
 			nextManager.endTurn();
-			Node child = node.addChild(move, getUtility(nextManager.getBoard()));
-			System.out.println("Added child: " + child);
+			Node child = node.addChild(move);
+			//System.out.println("Added child: " + child);
 			generate(nextManager, child, numMoves - 1);
 		}
 	}
