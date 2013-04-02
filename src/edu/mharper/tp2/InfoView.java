@@ -91,5 +91,8 @@ public class InfoView extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// End turn
+		if (GameView.moveChain != null && GameView.moveChain.size() != 0) {
+			GameView.endTurnAndUpdate();
+		
 	}
 }
