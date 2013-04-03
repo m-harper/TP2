@@ -193,6 +193,15 @@ public class View implements ActionListener {
 	}
 	
 	public static void gameOver() {
+		// server client disconnection
+		if(Main.runAsServer){
+			Settings.gameserver.connectionEnd();
+		}
+		
+		if(Main.runAsClient){
+			Settings.gameclient.connectionEnd();
+		}
+		
 		frame.setVisible(false);
 		infoView.timer.stop();
 		GameOverScreen gs = new GameOverScreen();

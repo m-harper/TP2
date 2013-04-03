@@ -15,6 +15,11 @@ public class Settings extends javax.swing.JFrame {
     /**
      * Creates new form Settings2
      */
+	
+	public static GameServer gameserver;
+	public static GameClient gameclient;
+	public static boolean currentModeServer = false;
+	
     public Settings() {
         initComponents();
         setVisible(true);
@@ -260,7 +265,7 @@ public class Settings extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                           
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         int rows = Integer.parseInt(jTextField1.getText());
         int cols = Integer.parseInt(jTextField2.getText());
@@ -289,16 +294,29 @@ public class Settings extends javax.swing.JFrame {
         	Main.pieceSize = Main.tileSize / 2;
         }
         
-        Main.horizontalSpaces = cols;
-        Main.verticalSpaces = rows;
-        Main.windowHeight = Main.verticalSpaces * Main.tileSize;  
-        Main.windowWidth = Main.horizontalSpaces * Main.tileSize; 
-        Main.defaultTime = time;
-        Main.port = port;
-        Main.runAsServer = mode;
-        Main.runAsClient = client;
-        Main.enableAI = ai;
-        Main.maxTurns = 10 * Main.verticalSpaces;
+       	Main.horizontalSpaces=cols;
+    	Main.verticalSpaces=rows;
+    	Main.windowHeight = Main.verticalSpaces * Main.tileSize;
+    	Main.windowWidth = Main.horizontalSpaces * Main.tileSize;
+    	Main.defaultTime = time;
+    	Main.runAsServer = mode;
+    	Main.runAsClient = client;
+    	Main.enableAI = ai;
+    	Main.maxTurns = 10* Main.verticalSpaces;
+        
+        if(mode){
+        	currentModeServer=true;
+ 
+        	gameserver= new GameServer(Main.port);
+        	gameserver.connectClient();
+        }
+        
+        if(client){
+        	currentModeServer = false;
+        	gameclient = new GameClient(Main.port);
+        	gameclient.connect();
+        	
+        }
         
         View view = new View();
         setVisible(false);

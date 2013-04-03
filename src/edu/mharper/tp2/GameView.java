@@ -359,6 +359,14 @@ public class GameView extends Canvas implements MouseListener {
 				
 				Point movePoint = new Point(xTile, yTile);
 				
+				if(Settings.currentModeServer){
+					// Server Side
+					Settings.gameserver.movepoint(pieceX,pieceY,xTile,yTile);
+				}else{
+					// Client Side
+					if (Main.runAsClient)
+						Settings.gameclient.movepoint(pieceX,pieceY,xTile,yTile);
+				}
 				boolean moveValid;
 				
 				//Check for a chain move
