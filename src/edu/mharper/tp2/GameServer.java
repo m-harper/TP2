@@ -89,9 +89,9 @@ public class GameServer{
 		}
 	}
 	
-	void movepoint(int x,int y,int xTile,int yTile){
+	void movepoint(String type, int x,int y,int xTile,int yTile){
 		System.out.println("B ("+x+","+y+") ("+xTile+","+yTile+") ");
-		String str=x+" "+y+" "+xTile+" "+yTile+" ";
+		String str=type + " " + x+" "+y+" "+xTile+" "+yTile+" ";
 		writeCmd(sockOutput,str);
 	}
 

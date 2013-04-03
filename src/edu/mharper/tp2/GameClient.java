@@ -58,6 +58,8 @@ public class GameClient {
 			// BEGIN statement
 			System.out.println(readCmd(buf));
 			
+			getMoves();
+			
 			// Game started
 			/*str=readCmd(buf);
 			st = new StringTokenizer(str);
@@ -77,6 +79,39 @@ public class GameClient {
 			System.err.println("Couldn't get I/O for the connection to 127.0.0.1."); 
 			System.exit(1);
 		}
+	}
+	
+	void getMoves() {
+		Runnable run = new Runnable() {
+			
+			@Override
+			public void run() {
+				for ( ; ; ) {
+					byte buf[] = new byte[1024];
+					String command = readCmd(buf);
+					parse(command);
+				}
+				
+			}
+		};
+		Thread thread = new Thread(run);
+		thread.start();
+	}
+	
+	void parse(String command) {
+		ArrayList<String> tokens = Util.getTokens(command);
+		
+		if (tokens.get(0).equals("A") || tokens.get(0).equals("W")) {
+			int x1, x2, y1, y2;
+			x1 = Integer.parseInt(tokens.get(1));
+			y1 = Integer.parseInt(tokens.get(2));
+			x2 = Integer.parseInt(tokens.get(3));
+			y2 = Integer.parseInt(tokens.get(4));
+			
+			View.gameView.gameManager.movePiece(View.gameView.gameManager.getBoard().getPiece(new Point(x1, y1)), new Point(x2, y2));
+			View.gameView.endTurnAndUpdate();
+		}
+		
 	}
 	
 	void connectionEnd(){
@@ -110,8 +145,8 @@ public class GameClient {
 		return null;
 	}
 	
-	void movepoint(int x,int y,int xTile,int yTile){
-		System.out.println("W ("+x+","+y+") ("+xTile+","+yTile+") ");
+	void movepoint(String type, int x,int y,int xTile,int yTile){
+		System.out.println(type + " ("+x+","+y+") ("+xTile+","+yTile+") ");
 	}
 	
 
