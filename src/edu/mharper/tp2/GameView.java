@@ -325,6 +325,7 @@ public class GameView extends Canvas implements MouseListener {
 			}
 			//If same piece selected twice, count as a sacrifice move
 			else if(prevSelection != null &&
+					prevMoves.isEmpty() &&
 					coordToTile(prevSelection.getX()) == xTile &&
 					coordToTile(prevSelection.getY()) == yTile)
 			{
