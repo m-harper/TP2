@@ -15,6 +15,11 @@ public class Settings extends javax.swing.JFrame {
     /**
      * Creates new form Settings2
      */
+	
+	public static GameServer gameserver;
+	public static GameClient gameclient;
+	public static boolean currentModeServer = true;
+	
     public Settings() {
         initComponents();
         setVisible(true);
@@ -260,7 +265,7 @@ public class Settings extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                           
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         int rows = Integer.parseInt(jTextField1.getText());
         int cols = Integer.parseInt(jTextField2.getText());
@@ -277,31 +282,45 @@ public class Settings extends javax.swing.JFrame {
             return;
         }
         
-        // Check validity of board size
-        if (rows % 2 == 0 || cols % 2 == 0 || rows > 13 || cols > 13 || rows < 3 || cols < 3) {
-            JOptionPane.showMessageDialog(null, "Error: board size must an odd number from 3 to 13");
-            return;
+        if(mode){
+        	currentModeServer=true;
+        	Main.horizontalSpaces=cols;
+        	Main.verticalSpaces=rows;
+        	Main.windowHeight = Main.verticalSpaces * Main.tileSize;
+        	Main.windowWidth = Main.horizontalSpaces * Main.tileSize;
+        	Main.defaultTime = time;
+        	Main.runAsServer = mode;
+        	Main.runAsClient = client;
+        	Main.enableAI = ai;
+        	Main.maxTurns = 10* Main.verticalSpaces;
+        	
+        	gameserver= new GameServer(Main.port);
+        	gameserver.connectClient();
+        	
+        	// Check validity of board size
+            if (rows % 2 == 0 || cols % 2 == 0 || rows > 13 || cols > 13 || rows < 3 || cols < 3) {
+                JOptionPane.showMessageDialog(null, "Error: board size must an odd number from 3 to 13");
+                return;
+            }
+            
+            // Scale to save smaller screens
+            if (rows > 9 || cols > 9) {
+            	Main.tileSize = 50;
+            	Main.pieceSize = Main.tileSize / 2;
+            }
         }
         
-        // Scale to save smaller screens
-        if (rows > 9 || cols > 9) {
-        	Main.tileSize = 50;
-        	Main.pieceSize = Main.tileSize / 2;
+        if(client){
+        	currentModeServer=false;
+        	gameclient = new GameClient(Main.port);
+        	gameclient.connect();
         }
-        
-        Main.horizontalSpaces = cols;
-        Main.verticalSpaces = rows;
-        Main.windowHeight = Main.verticalSpaces * Main.tileSize;  
-        Main.windowWidth = Main.horizontalSpaces * Main.tileSize; 
-        Main.defaultTime = time;
-        Main.port = port;
-        Main.runAsServer = mode;
-        Main.runAsClient = client;
-        Main.enableAI = ai;
-        Main.maxTurns = 10 * Main.verticalSpaces;
         
         View view = new View();
         setVisible(false);
+        
+        if (client) 
+        	gameclient.beginWait();
     }                                        
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
