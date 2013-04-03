@@ -318,9 +318,6 @@ public class Settings extends javax.swing.JFrame {
         
         View view = new View();
         setVisible(false);
-        
-        if (client) 
-        	gameclient.beginWait();
     }                                        
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                           

@@ -57,6 +57,8 @@ public class GameClient {
 			// BEGIN statement
 			System.out.println(readCmd(buf));
 			
+			beginWait();
+			
 			//loop();
 			
 			// Game started
