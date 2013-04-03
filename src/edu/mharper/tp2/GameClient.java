@@ -48,7 +48,8 @@ public class GameClient {
 			Main.verticalSpaces = column;
 			Main.defaultTime = time;
 			Main.windowHeight = Main.verticalSpaces * Main.tileSize;  
-	        Main.windowWidth = Main.horizontalSpaces * Main.tileSize; 
+	        Main.windowWidth = Main.horizontalSpaces * Main.tileSize;
+	        Main.maxTurns = 10 * column;
 	        
 	        
 			// READ statement
