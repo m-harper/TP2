@@ -35,6 +35,7 @@ public class InfoView extends JPanel implements ActionListener {
 		turnsLeft.setPreferredSize(new Dimension(Main.windowWidth, 25));
 		
 		endTurn = new JButton("End turn");
+		endTurn.addActionListener(this);
 		//endTurn.setPreferredSize(new Dimension(Main.windowHeight / 5, 25));
 		
 		setPreferredSize(new Dimension(Main.windowWidth, Main.displayInfoSize));
