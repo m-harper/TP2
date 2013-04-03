@@ -58,7 +58,7 @@ public class GameClient {
 			// BEGIN statement
 			System.out.println(readCmd(buf));
 			
-			getMoves();
+			waitForMoves();
 			
 			// Game started
 			/*str=readCmd(buf);
@@ -81,7 +81,7 @@ public class GameClient {
 		}
 	}
 	
-	void getMoves() {
+	void waitForMoves() {
 		Runnable run = new Runnable() {
 			
 			@Override
@@ -102,15 +102,38 @@ public class GameClient {
 		ArrayList<String> tokens = Util.getTokens(command);
 		
 		if (tokens.get(0).equals("A") || tokens.get(0).equals("W")) {
+			// Single move only at the moment
 			int x1, x2, y1, y2;
 			x1 = Integer.parseInt(tokens.get(1));
 			y1 = Integer.parseInt(tokens.get(2));
 			x2 = Integer.parseInt(tokens.get(3));
 			y2 = Integer.parseInt(tokens.get(4));
 			
+			
+			boolean moveValid = false;
+			moveValid = View.gameView.gameManager.isValidMove(View.gameView.gameManager.getBoard().getPiece(new Point(x1, y1)), new Point(x2, y2));
 			View.gameView.gameManager.movePiece(View.gameView.gameManager.getBoard().getPiece(new Point(x1, y1)), new Point(x2, y2));
 			View.gameView.endTurnAndUpdate();
 		}
+		
+		if (tokens.get(0).equals("P")) {
+			int x1, x2, y1, y2;
+			x1 = Integer.parseInt(tokens.get(1));
+			y1 = Integer.parseInt(tokens.get(2));
+			x2 = Integer.parseInt(tokens.get(3));
+			y2 = Integer.parseInt(tokens.get(4));
+			View.gameView.gameManager.movePiece(View.gameView.gameManager.getBoard().getPiece(new Point(x1, y1)), new Point(x2, y2));
+		}
+		
+		if (tokens.get(0).equals("S")) {
+			int x1, y1;
+			x1 = Integer.parseInt(tokens.get(1));
+			y1 = Integer.parseInt(tokens.get(2));
+			// Sacrifice the piece
+			
+		}
+		
+		
 		
 	}
 	
